@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url("C:\Users\cawaha\OneDrive - Capgemini\Documents\Images\Captures d’écran"); /* Remplacez par l'URL de votre image */
+    background-size: cover; /* Cette propriété permet d'adapter l'image à la taille de l'élément */
+    background-position: center; 
+  }
+
+  .film-image img {
+    width: 150px;
+    height: 90px;
+    object-fit: cover;
+  }
+  
+  .button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #ffcc00;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .film-details button:hover {
+    background-color: #ff9900;
+  }
+  
+  .containerNotes {
+    justify-content: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    height: 70px;
+    width: 50%;
+}
+
+.stars {
+    font-size: 20px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star {
+    display: inline-block;
+    transition: color 0.2s;
+}
+
+.star.active {
+    color: #ffcc00;
+}
+
+p {
+    font-size: 12px;
+    margin-top: 10px;
+
+}
