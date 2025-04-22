@@ -92,6 +92,93 @@ namespace backend.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadMovieWithFiles([FromForm] MovieUploadDto movieDto)
+        {
+            var posterPath = Path.Combine("wwwroot/posters", movieDto.PosterFile.FileName);
+            var trailerPath = Path.Combine("wwwroot/trailers", movieDto.TrailerFile.FileName);
+
+        // Save files to disk
+        using (var posterStream = new FileStream(posterPath, FileMode.Create))
+            await movieDto.PosterFile.CopyToAsync(posterStream);
+
+        using (var trailerStream = new FileStream(trailerPath, FileMode.Create))
+            await movieDto.TrailerFile.CopyToAsync(trailerStream);
+
+        // Create Movie
+        var movie = new Movie
+            {
+                Title = movieDto.Title,
+                Summary = movieDto.Summary,
+                PosterUrl = $"/posters/{movieDto.PosterFile.FileName}",
+                TrailerUrl = $"/trailers/{movieDto.TrailerFile.FileName}"
+            };
+
+         _context.Movies.Add(movie);
+        await _context.SaveChangesAsync();
+
+        return Ok(movie);
+        }
+                // 👍 Ajouter un like
+        [HttpPost("{id}/like")]
+        public async Task<IActionResult> Like(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null) return NotFound();
+
+            movie.Likes++;
+            await _context.SaveChangesAsync();
+            return Ok(new { likes = movie.Likes });
+        }
+
+        // 👍 Retirer un like
+        [HttpPost("{id}/unlike")]
+        public async Task<IActionResult> Unlike(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null || movie.Likes <= 0) return NotFound();
+
+            movie.Likes--;
+            await _context.SaveChangesAsync();
+            return Ok(new { likes = movie.Likes });
+        }
+
+        // 👎 Ajouter un dislike
+        [HttpPost("{id}/dislike")]
+        public async Task<IActionResult> Dislike(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null) return NotFound();
+
+            movie.Dislikes++;
+            await _context.SaveChangesAsync();
+            return Ok(new { dislikes = movie.Dislikes });
+        }
+
+        // 👎 Retirer un dislike
+        [HttpPost("{id}/undislike")]
+        public async Task<IActionResult> Undislike(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null || movie.Dislikes <= 0) return NotFound();
+
+            movie.Dislikes--;
+            await _context.SaveChangesAsync();
+            return Ok(new { dislikes = movie.Dislikes });
+        }
+
+        // 👁️ Incrémenter les vues
+        [HttpPost("{id}/view")]
+        public async Task<IActionResult> View(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null) return NotFound();
+
+            movie.Views++;
+            await _context.SaveChangesAsync();
+            return Ok(new { views = movie.Views });
+        }
+
     }
-    
-}
+}   

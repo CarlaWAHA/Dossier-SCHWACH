@@ -163,3 +163,5 @@ C:\Users\PC\OneDrive\Documents\Schwach\backend\obj\Debug\net9.0\refint\backend.d
 C:\Users\PC\OneDrive\Documents\Schwach\backend\obj\Debug\net9.0\backend.pdb
 C:\Users\PC\OneDrive\Documents\Schwach\backend\obj\Debug\net9.0\backend.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Documents\Schwach\backend\obj\Debug\net9.0\ref\backend.dll
+C:\Users\PC\OneDrive\Documents\Schwach\backend\obj\Debug\net9.0\backend.sourcelink.json
+C:\Users\PC\OneDrive\Documents\Schwach\backend\bin\Debug\net9.0\backend.staticwebassets.runtime.json

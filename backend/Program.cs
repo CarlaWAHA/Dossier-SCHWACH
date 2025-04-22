@@ -20,6 +20,7 @@ builder.Services.AddCors(opt =>
 var app = builder.Build();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 var summaries = new[]
 {

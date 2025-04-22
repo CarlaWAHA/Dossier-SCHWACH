@@ -8,7 +8,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Actor> Actors => Set<Actor>();
-    public DbSet<Comment> Comments => Set<Comment>();
+    public DbSet<Comment> Comments { get; set; }
     public DbSet<Rating> Ratings => Set<Rating>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 {

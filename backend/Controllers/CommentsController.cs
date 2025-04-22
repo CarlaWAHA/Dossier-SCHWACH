@@ -17,7 +17,7 @@ namespace backend.Controllers
         }
 
         // POST: api/comments
-        [HttpPost]
+[HttpPost]
 public async Task<ActionResult<Comment>> CreateComment(int movieId, Comment comment)
 {
     var movie = await _context.Movies.FindAsync(movieId);
