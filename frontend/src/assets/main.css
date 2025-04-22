@@ -25,6 +25,7 @@ a,
 
 @media (min-width: 1024px) {
   body {
+    background-color: #f0f0f0;
     display: flex;
     place-items: center;
   }
@@ -34,4 +35,5 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+
 }

@@ -1,78 +1,101 @@
 <template>
-  <div class="p-6 max-w-4xl mx-auto text-gray-900 font-sans">
-    <h1 class="text-4xl font-bold mb-4">{{ movie.title }}</h1>
-    <img :src="movie.posterUrl" :alt="movie.title" class="rounded w-full h-96 object-cover mb-4" />
-    <p class="text-gray-700 mb-6">{{ movie.summary }}</p>
+  <div class="w-full min-h-screen px-4 pt-6 pb-44 text-gray-900 bg-gray-50">
+    <h1 class="text-3xl font-bold mb-6 text-center">Schwach</h1>
 
-    <!-- Vidéo locale -->
-    <iframe
-      v-if="movie.trailerUrl"
-      :src="movie.trailerUrl"
-      title="Bande-annonce de {{ movie.title }}"
-      class="w-full h-72 rounded mb-6"
-    ></iframe>
+    <!-- Vidéo + Affiche -->
+    <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-10 w-full">
+      <div class="w-full md:w-[55vw] h-[500px]">
+        <iframe
+          v-if="movie.trailerUrl"
+          :src="movie.trailerUrl"
+          title="Bande-annonce de {{ movie.title }}"
+          class="w-full h-full rounded shadow-xl"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="w-full md:w-[30vw] h-[500px]">
+        <img
+          :src="movie.posterUrl"
+          :alt="movie.title"
+          class="w-full h-full object-cover shadow-xl"
+        />
+      </div>
+    </div>
+
+    <!-- Like / Dislike / Views -->
+    <div class="flex items-center gap-10 text-lg mb-10">
+      <button @click="toggleLike" :class="['flex items-center gap-2 transition', userLiked ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600']">
+        <span class="text-2xl">👍</span>
+        <span class="font-semibold">{{ likeCount }}</span>
+      </button>
+      <button @click="toggleDislike" :class="['flex items-center gap-2 transition', userDisliked ? 'text-red-600' : 'text-gray-700 hover:text-red-600']">
+        <span class="text-2xl">👎</span>
+        <span class="font-semibold">{{ dislikeCount }}</span>
+      </button>
+      <div class="flex items-center gap-2 text-gray-500">
+        <span class="text-2xl">👁️</span>
+        <span class="font-semibold">{{ views }}</span>
+      </div>
+    </div>
+
+    <!-- Résumé -->
+    <p class="text-lg text-center text-gray-700 mb-10">{{ movie.summary }}</p>
 
     <!-- Acteurs -->
     <h2 class="text-2xl font-semibold mb-2">Acteurs</h2>
     <ul class="list-disc ml-6 mb-6">
-      <li
-        v-for="actor in movie.actors"
-        :key="actor.id"
-        class="text-blue-600 hover:underline cursor-pointer"
-        @click="selectedActor = actor"
-      >
+      <li v-for="actor in movie.actors" :key="actor.id" class="text-blue-600 hover:underline cursor-pointer" @click="selectedActor = actor">
         {{ actor.name }}
       </li>
     </ul>
 
-    <!-- Détails de l'acteur -->
-    <ActorDetails
-      :actor="selectedActor"
-      @close="selectedActor = null"
-      class="mb-6"
-    />
+    <ActorDetails :actor="selectedActor" @close="selectedActor = null" class="mb-6" />
 
     <!-- Commentaires -->
     <div class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Commentaires ({{ movie.comments?.length || 0 }})</h2>
+      <h2 class="text-2xl font-semibold mb-4">Commentaires ({{ topLevelComments.length }})</h2>
 
-      <!-- Formulaire -->
+      <!-- Formulaire principal -->
       <div class="flex flex-col md:flex-row gap-2 mb-6">
-        <input
-          v-model="newComment.author"
-          placeholder="Votre nom"
-          class="border border-gray-300 px-4 py-2 rounded w-full md:w-1/4"
-        />
-        <textarea
-          v-model="newComment.content"
-          placeholder="Votre commentaire"
-          class="border border-gray-300 px-4 py-2 rounded w-full md:flex-1 resize-none"
-          rows="3"
-        ></textarea>
-        <button
-          @click="submitComment"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Envoyer
-        </button>
+        <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-2 rounded w-full md:w-1/4" />
+        <textarea v-model="newComment.content" placeholder="Votre commentaire" class="border border-gray-300 px-4 py-2 rounded w-full md:flex-1 resize-none" rows="3"></textarea>
+        <button @click="submitComment" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Envoyer</button>
       </div>
 
-      <!-- Liste des commentaires -->
-      <div v-for="comment in movie.comments" :key="comment.id" class="flex items-start mb-6">
-          <!-- Avatar -->
+      <!-- Affichage des commentaires -->
+      <div v-for="comment in topLevelComments" :key="comment.id" class="mb-6">
+        <div class="flex items-start">
           <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg mr-4">
             {{ comment.author.charAt(0).toUpperCase() }}
           </div>
-
-            <!-- Bulle de commentaire -->
           <div class="bg-gray-100 rounded-xl px-4 py-3 shadow-sm w-full">
             <div class="flex justify-between items-center mb-1">
-            <span class="font-semibold text-gray-800">{{ comment.author }}</span>
-          <span class="text-sm text-gray-500">{{ new Date(comment.createdAt).toLocaleString() }}</span>
+              <span class="font-semibold text-gray-800">{{ comment.author }}</span>
+              <span class="text-sm text-gray-500">{{ new Date(comment.createdAt).toLocaleString() }}</span>
+            </div>
+            <p class="text-gray-700 leading-relaxed">{{ comment.content }}</p>
+
+            <button class="text-blue-600 text-sm mt-2 hover:underline" @click="replyToComment(comment.id)">
+              {{ replyingTo === comment.id ? 'Annuler' : 'Répondre' }}
+            </button>
+
+            <!-- Répondre -->
+            <div v-if="replyingTo === comment.id" class="mt-4 space-y-2">
+              <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-1 rounded w-1/2" />
+              <textarea v-model="newComment.content" placeholder="Votre réponse" class="border border-gray-300 px-4 py-2 rounded w-full resize-none" rows="2"></textarea>
+              <button @click="submitComment" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+                Envoyer la réponse
+              </button>
+            </div>
+
+            <!-- Réponses -->
+            <div v-for="reply in getReplies(comment.id)" :key="reply.id" class="ml-6 mt-4 pl-4 border-l-2 border-gray-200">
+              <strong>{{ reply.author }}</strong>
+              <p class="text-gray-700">{{ reply.content }}</p>
+            </div>
           </div>
-    <p class="text-gray-700 leading-relaxed">{{ comment.content }}</p>
-  </div>
-</div>
+        </div>
+      </div>
     </div>
 
     <!-- Note -->
@@ -82,7 +105,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import ActorDetails from '@/components/ActorDetails.vue'
@@ -91,19 +114,37 @@ const route = useRoute()
 const movie = ref({})
 const averageRating = ref(0)
 const selectedActor = ref(null)
+const likeCount = ref(0)
+const dislikeCount = ref(0)
+const views = ref(0)
+const userLiked = ref(false)
+const userDisliked = ref(false)
+const replyingTo = ref(null)
 
 const newComment = ref({
   author: '',
   content: ''
 })
 
+const topLevelComments = computed(() =>
+  (movie.value.comments || []).filter(comment => !comment.parentId)
+)
+
+const getReplies = (parentId) =>
+  (movie.value.comments || []).filter(comment => comment.parentId === parentId)
+
 onMounted(async () => {
   await fetchMovie()
+  await incrementView()
 })
 
 const fetchMovie = async () => {
   const res = await axios.get(`/api/movies/${route.params.id}`)
   movie.value = res.data
+  likeCount.value = res.data.likes || 0
+  dislikeCount.value = res.data.dislikes || 0
+  views.value = res.data.views || 0
+
   const ratings = res.data.ratings || []
   if (ratings.length > 0) {
     averageRating.value = (
@@ -112,19 +153,63 @@ const fetchMovie = async () => {
   }
 }
 
+const toggleLike = async () => {
+  if (userLiked.value) {
+    likeCount.value--
+    userLiked.value = false
+    await axios.post(`/api/movies/${route.params.id}/unlike`)
+  } else {
+    if (userDisliked.value) {
+      dislikeCount.value--
+      userDisliked.value = false
+      await axios.post(`/api/movies/${route.params.id}/undislike`)
+    }
+    likeCount.value++
+    userLiked.value = true
+    await axios.post(`/api/movies/${route.params.id}/like`)
+  }
+}
+
+const toggleDislike = async () => {
+  if (userDisliked.value) {
+    dislikeCount.value--
+    userDisliked.value = false
+    await axios.post(`/api/movies/${route.params.id}/undislike`)
+  } else {
+    if (userLiked.value) {
+      likeCount.value--
+      userLiked.value = false
+      await axios.post(`/api/movies/${route.params.id}/unlike`)
+    }
+    dislikeCount.value++
+    userDisliked.value = true
+    await axios.post(`/api/movies/${route.params.id}/dislike`)
+  }
+}
+
+const incrementView = async () => {
+  const res = await axios.post(`/api/movies/${route.params.id}/view`)
+  views.value = res.data.views
+}
+
+const replyToComment = (id) => {
+  replyingTo.value = replyingTo.value === id ? null : id
+}
+
 const submitComment = async () => {
   if (!newComment.value.author || !newComment.value.content) {
     alert('Veuillez remplir les deux champs.')
     return
   }
 
-  await axios.post(`/api/movies/${route.params.id}/comments`, newComment.value)
+  const payload = {
+    ...newComment.value,
+    parentId: replyingTo.value
+  }
 
-  // Recharge les données du film avec les nouveaux commentaires
+  await axios.post(`/api/movies/${route.params.id}/comments`, payload)
   await fetchMovie()
-
-  // Reset du formulaire
   newComment.value = { author: '', content: '' }
+  replyingTo.value = null
 }
-
 </script>

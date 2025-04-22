@@ -1,66 +1,63 @@
 <template>
-  <div class="p-6">
-    <h1 class="text-3xl font-bold mb-6">Films disponibles</h1>
+  <div class="font-comic absolute inset-0 w-full h-full object-cover bg-white">
+    <!-- 🎬 Header Style BD -->
+    <section>
+      <img
+        src="/posters/schwach.jpg"
+        alt="Bannière"
+        class="absolute inset-0 w-full md:h-[525px] object-cover"
+      />
+      <div class="absolute inset-0 flex items-center justify-center">
+        <h1 class="text-white text-5xl md:text-7xl font-extrabold drop-shadow-md flex items-center gap-4">
+          🎬 Dossier Schwach
+        </h1>
+      </div>
+    </section>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div
-        v-for="movie in movies"
-        :key="movie.id"
-        class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300"
-      >
-        <img
-          :src="movie.posterUrl"
-          :alt="movie.title"
-          class="rounded-t-xl w-full h-64 object-cover"
-        />
-        <div class="p-4">
-          <h2 class="text-xl font-semibold mb-2">{{ movie.title }}</h2>
-          <router-link
-            :to="`/movie/${movie.id}`"
-            class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-          >
-            Voir +
-          </router-link>
-
-          <!-- 🎞️ Résumé -->
-          <p class="italic mt-2">Résumé</p>
-          <p class="text-gray-700 mb-2">
-            Inception est une immersion dans l’univers complexe des rêves. Ce chef-d'œuvre de science-fiction explore la frontière entre la réalité et l'imaginaire, où chaque niveau de rêve est une énigme à résoudre. Une œuvre intellectuelle et visuellement époustouflante.
-          </p>
-
-          <!-- 👥 Équipe -->
-          <p class="italic mt-4">Équipe du film</p>
-          <ul class="text-gray-800 text-sm list-disc ml-4">
-            <li><strong>Réalisateur :</strong> Christopher Nolan</li>
-            <li><strong>Scénariste :</strong> Christopher Nolan</li>
-            <li><strong>Productrice :</strong> Emma Thomas</li>
-            <li><strong>Musique :</strong> Hans Zimmer</li>
-            <li><strong>Directeur photo :</strong> Wally Pfister</li>
-          </ul>
+    <!-- 🎞️ Section Films élargie et plus haute -->
+    <section class="px-6 pt-[480px] pb-44">
+      <div class="flex flex-col items-center justify-center gap-14">
+        <div
+          v-for="movie in movies"
+          :key="movie.id"
+          class="bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all max-w-4xl w-full min-h-[700px] flex flex-col justify-center"
+        >
+          <div class="p-8">
+            <h3 class="text-4xl font-bold text-blue-800 mb-6 text-center">Schwach</h3>
+            <router-link
+              :to="`/movie/${movie.id}`"
+              class="block bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition text-center mx-auto w-fit"
+            >
+              Voir +
+            </router-link>
+            <p class="italic text-lg text-gray-600 mt-6 text-center leading-relaxed px-4">
+              {{ movie.summary.substring(0, 200) }}...
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- 📫 Contact toujours bien espacé -->
+    <footer class="bg-gray-300 py-12 border-t mt-40">
+      <div class="max-w-xl mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold mb-4">📫 Contact</h2>
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <p class="mb-2"><strong>📸 Instagram :</strong> Dossier : Schwach</p>
+          <p class="mb-2"><strong>📧 Email :</strong> dossier.schwach@gmail.com</p>
+          <p class="mt-3 text-blue-600 hover:underline">
+            👉
+            <a
+              href="https://fr.tipeee.com/dossier-schwach-court-metrage-ydays"
+              target="_blank"
+            >
+              Soutenir avec un don
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
   </div>
-
-  <!-- Section Contact remaniée -->
-  <section class="mt-12 border-t pt-6 relative" v-if="showContact">
-    <h2 class="text-2xl font-bold mb-4">Contact</h2>
-
-    <div class="bg-gray-100 p-6 rounded-xl shadow-md max-w-xl">
-      <h3 class="text-xl font-semibold mb-4">📬 Coordonnées</h3>
-      <p class="mb-2"><strong>Instagram :</strong> Dossier : Schwach</p>
-      <p class="mb-2"><strong>Email :</strong> dossier.schwach@gmail.com</p>
-      <p class="mb-4">
-        👉 <a
-          href="https://fr.tipeee.com/dossier-schwach-court-metrage-ydays"
-          class="text-blue-600 hover:underline"
-          target="_blank"
-        >
-          Vous pouvez nous soutenir avec un don
-        </a>
-      </p>
-    </div>
-  </section>
 </template>
 
 <script setup>
@@ -68,10 +65,17 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const movies = ref([])
-const showContact = ref(true)
 
 onMounted(async () => {
   const res = await axios.get('/api/movies')
   movies.value = res.data
 })
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+.font-comic {
+  font-family: 'Comic Neue', cursive;
+}
+</style>
