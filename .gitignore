@@ -79,5 +79,8 @@ Desktop.ini
 *.tmp
 *.temp
 
-# Optional: Ignore frontend/public/trailers videos
-frontend/public/trailers/*.mp4
+# Ignore tous les .mp4 par défaut
+*.mp4
+
+# ... sauf ceux du dossier trailers (utilisés avec Git LFS)
+!frontend/public/trailers/*.mp4
