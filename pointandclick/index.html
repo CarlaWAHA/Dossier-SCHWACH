@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenue dans l'Hôtel</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      height: 100vh;
+      width: 100vw;
+      font-family: 'Courier New', monospace;
+    }
+
+    #scene {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 1.5s ease;
+    }
+
+    #fade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: black;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
+      z-index: 10;
+    }
+
+    #sceneText {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 2em;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 1em 2em;
+      z-index: 11;
+      opacity: 0;
+      max-width: 90%;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    .hotspot {
+      position: absolute;
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      z-index: 5;
+      transition: border-color 0.3s;
+      opacity: 0;
+    }
+
+    .hotspot:hover {
+      cursor: pointer;
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    #startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 1em 2em;
+      font-size: 20px;
+      z-index: 20;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="startBtn">Dirigez-vous vers votre chambre</button>
+
+  <div id="scene"></div>
+  <div id="fade"></div>
+  <div id="sceneText"></div>
+  <input type="text" id="codeInput" placeholder="écoutez les lumières" style="
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5em;
+  font-size: 1.5em;
+  display: none;
+  z-index: 12;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+">
+
+<div id="endMessage" style="
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 2em;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1em 2em;
+  border-radius: 10px;
+  display: none;
+  z-index: 12;
+  text-align: center;
+"></div>
+
+
+  <audio id="ambiance" src="sons/ambiance.mp3" loop autoplay hidden></audio>
+
+  <script>
+    const scenes = [
+    {
+    img: 'images/face_ascenseur1.jpg',
+    sound: '',
+    soundDelay: 0,
+    fade: false,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "C'était une longue route je vais me reposer dans ma chambre",
+    hotspots: [
+      { x: 73, y: 72, width: 1.5, height: 3, targetScene: 1, sound: 'sons/elevatordoor.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/face_ascenseur2.jpg',
+    sound: '',
+    soundDelay: 500,
+    fade: true,
+    fadeDuration: 2000,
+    zoom: { enabled: false, scale: 1.1 },
+    text: "Cet ascenseur m'a jamais inspiré confiance...",
+    hotspots: [],
+    autoNext: { delay: 4000, targetScene: 2 }
+  },
+  {
+    img: 'images/face_ascenseur3.jpg',
+    sound: 'entree.mp3',
+    soundDelay: 0,
+    fade: false,
+    fadeDuration: 1500,
+    zoom: { enabled: true, scale: 1.1 },
+    text: "Il faut que j'aille au 1er étage",
+    hotspots: [
+      { x: 46, y: 30, width: 15, height: 65, targetScene: 3, sound: 'sons/step.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/panneau_ascenseur1.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false, scale: 1.1 },
+    text: "Je devrai vivement aller me reposer",
+    hotspots: [
+      { x: 38.5, y: 28.5, width: 4, height: 8, targetScene: 4, sound: 'sons/elevator.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/panneau_ascenseur2.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 500,
+    fade: true,
+    fadeDuration: 1000,
+    zoom: { enabled: false },
+    text: "Il me semble avoir laissé des médicaments pour mes troubles de sommeil",
+    hotspots: [],
+    autoNext: { delay: 8000, targetScene: 5 }
+  },
+  {
+    img: 'images/attente_ascenseur.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 500,
+    fade: true,
+    fadeDuration: 2000,
+    zoom: { enabled: false, scale: 1.05 },
+    text: "Je les ai laissés dans le tiroir de la table de nuit",
+    hotspots: [],
+    autoNext: { delay: 11000, targetScene: 6 }
+  },
+  {
+    img: 'images/attente_ascenseur2.jpg',
+    sound: 'sons/music.mp3',
+    soundDelay: 0,
+    fade: false,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "Tiens ? la femmme de ménage habituelle n'est pas là ? Comment elle s'appellait déjà...",
+    hotspots: [
+      { x: 45, y: 30, width: 10, height: 55, targetScene: 7, sound: 'sons/step.wav'}
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/couloir2.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 500,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: true, scale: 1.1 },
+    text: "Ma chambre est sur la droite",
+    hotspots: [
+      { x: 45, y: 30, width: 15, height: 55, targetScene: 8, sound: 'sons/step.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/porte.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "C'est étrange que toutes les affaires de ménage ont étés laissées dans le couloir...",
+    hotspots: [
+    { x: 28, y: 29, width: 8, height: 16, targetScene: 9, sound: 'sons/keys.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/portevuepres.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "...",
+    hotspots: [
+    { x: 35, y: 80, width: 10, height: 20, targetScene: 10, sound: 'sons/dooropen.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/vue_meuble.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "Je prends mes cachets et au dodo",
+    hotspots: [
+    { x: 36, y: 40, width: 10, height: 20, targetScene: 11, sound: 'sons/step.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/meuble.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "Il y a quelqu'un qui m'a suivi il est dans le couloir, mais qu'est-ce qu'il se passe encore",
+    hotspots: [
+    { x: 47, y: 70, width: 10, height: 20, targetScene: 12, sound: 'sons/drawer.wav' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/meuble_ouvert.jpg',
+    sound: 'fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "Mes cachets ne sont plus là",
+    hotspots: [
+    { x: 30, y: 70, width: 40, height: 20, targetScene: 13, sound: 'sons/lumieredisjoncte.mp3' }
+    ],
+    autoNext: null
+  },
+  {
+    img: 'images/chambrenuit.png',
+    sound: 'sons/fin.mp3',
+    soundDelay: 0,
+    fade: true,
+    fadeDuration: 1500,
+    zoom: { enabled: false },
+    text: "Il... Il faut que j'agisse vite",
+    hotspots: [],
+    autoNext: { delay: 1000, targetScene: 14 }
+  }
+    ];
+
+    let currentScene = 0;
+    let autoTimer = null;
+    const sceneDiv = document.getElementById('scene');
+    const fadeDiv = document.getElementById('fade');
+    const sceneText = document.getElementById('sceneText');
+
+    function playSound(src) {
+      if (src) {
+        const audio = new Audio(src);
+        audio.play();
+      }
+    }
+
+    function clearHotspots() {
+      document.querySelectorAll('.hotspot').forEach(h => h.remove());
+    }
+
+    function createHotspots(hotspots) {
+      clearHotspots();
+      hotspots.forEach(h => {
+        const div = document.createElement('div');
+        div.className = 'hotspot';
+        div.style.left = h.x + '%';
+        div.style.top = h.y + '%';
+        div.style.width = h.width + '%';
+        div.style.height = h.height + '%';
+
+        div.addEventListener('click', (e) => {
+           e.stopPropagation();
+           clearHotspots();
+           changeScene(h.targetScene, h.sound);
+          });
+
+
+
+        sceneDiv.appendChild(div);
+      });
+    }
+
+    function resetZoom() {
+      sceneDiv.style.transform = 'scale(1)';
+    }
+
+    function applyZoom(scale, duration) {
+      sceneDiv.style.transition = `transform ${duration}ms ease`;
+      sceneDiv.style.transform = `scale(${scale})`;
+    }
+
+    let typeWriterTimeouts = [];
+
+    function typeWriter(element, text, speed = 30) {
+      typeWriterTimeouts.forEach(clearTimeout);
+      typeWriterTimeouts = [];
+
+      element.textContent = '';
+      element.style.opacity = 1;
+      let i = 0;
+
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          const timeout = setTimeout(type, speed);
+          typeWriterTimeouts.push(timeout);
+        }
+      }
+      type();
+    }
+
+    const sceneWhenTyped = currentScene;
+  setTimeout(() => {
+    if (currentScene === sceneWhenTyped && currentScene === 14) {
+      sceneText.style.opacity = 0;
+      sceneText.textContent = '';
+
+   }
+  }, 3000);
+
+
+
+
+    setTimeout(() => {
+      if (currentScene === 14) {
+        sceneText.style.opacity = 0;
+      }
+    }, 3000);
+
+
+    function changeScene(index, extraSound = null) {
+      if (autoTimer) {
+        clearTimeout(autoTimer);
+        autoTimer = null;
+          if (index === 14) {
+    let visible = true;
+    let blinkCount = 0;
+    codeInput.style.display = 'block';
+    codeInput.value = '';
+    codeInput.focus();
+
+    blinkInterval = setInterval(() => {
+      blinkCount++;
+      visible = !visible;
+      sceneDiv.style.backgroundImage = visible
+        ? 'url(images/chambrenuit.png)'
+        : 'url(images/chambre.jpg)';
+
+      if (blinkCount >= 4) {
+        clearInterval(blinkInterval);
+      }
+    }, 400);
+  }
+
+      }
+
+      const scene = scenes[index];
+      const fade = scene.fade !== false;
+      const fadeDuration = scene.fadeDuration || 1500;
+      const zoom = scene.zoom && scene.zoom.enabled ? scene.zoom.scale || 1.1 : null;
+      const soundToPlay = extraSound || scene.sound;
+      const delay = scene.soundDelay != null ? scene.soundDelay : fadeDuration / 2;
+
+      fadeDiv.style.transition = `opacity ${fadeDuration}ms ease`;
+
+      const applyScene = () => {
+        currentScene = index;
+        resetZoom();
+        sceneDiv.style.backgroundImage = `url(${scene.img})`;
+        createHotspots(scene.hotspots);
+
+        setTimeout(() => {
+          typeWriter(sceneText, scene.text || '');
+        }, 500);
+
+        if (index === 14) { 
+          setTimeout(() => {
+            sceneText.style.opacity = 0;
+        }, 5000); 
+      }
+
+
+        if (soundToPlay) {
+          setTimeout(() => playSound(soundToPlay), delay);
+        }
+
+        if (scene.autoNext) {
+          autoTimer = setTimeout(() => {
+            changeScene(scene.autoNext.targetScene);
+          }, scene.autoNext.delay);
+        }
+      };
+
+      if (fade) {
+        fadeDiv.style.opacity = 1;
+        if (zoom) applyZoom(zoom, fadeDuration);
+        setTimeout(() => {
+          applyScene();
+          fadeDiv.style.opacity = 0;
+          resetZoom();
+        }, fadeDuration);
+      } else {
+        applyScene();
+      }
+    }
+
+    document.getElementById('startBtn').addEventListener('click', () => {
+      document.getElementById('startBtn').remove();
+      changeScene(0);
+    });
+
+
+    const codeInput = document.getElementById('codeInput');
+const endMessage = document.getElementById('endMessage');
+let blinkInterval = null;
+
+document.getElementById('codeInput').addEventListener('keyup', function (e) {
+  if (e.key === 'Enter') {
+    const value = this.value.trim().toUpperCase();
+    codeInput.style.display = 'none';
+    clearInterval(blinkInterval);
+
+    const expectedCode = atob('SElERQ==');
+if (value === expectedCode) {
+  endMessage.style.display = 'none';
+  sceneText.style.opacity = 0;
+  sceneText.textContent = '';
+
+
+  const sequence = [
+    { img: 'images/armoirenuit.png', sound: '', delay: 500 },
+    { img: 'images/armoireouvertenuit.png', sound: 'sons/doorslow.wav', delay: 1000 },
+    { img: 'images/.png', sound: 'sons/respiration.wav', delay: 3000 },
+  ];
+
+  let step = 0;
+
+  const runSequence = () => {
+  if (step < sequence.length) {
+    const s = sequence[step];
+    sceneDiv.style.backgroundImage = `url(${s.img})`;
+    playSound(s.sound);
+    step++;
+    setTimeout(runSequence, s.delay);
+  } else {
+    const encoded = 'OVIzWDdRMg==';
+    const decoded = atob(encoded);
+    endMessage.style.display = 'block';
+    endMessage.textContent = '';
+    endMessage.style.opacity = 0;
+    endMessage.style.transition = 'opacity 2s ease';
+    sceneDiv.style.backgroundImage = 'url(images/.png)';
+
+    setTimeout(() => {
+      playSound('sons/riser.mp3');
+    }, 3000);
+
+    setTimeout(() => {
+      let i = 0;
+      const message = decoded;
+      endMessage.style.opacity = 1;
+
+      const typeInterval = setInterval(() => {
+        endMessage.textContent += message.charAt(i);
+        i++;
+        if (i >= message.length) {
+          clearInterval(typeInterval);
+        }
+      }, 150);
+    }, 3000);
+    setTimeout(() => {
+    window.close();
+  }, 6000);
+  }
+}
+
+  runSequence();
+
+} else {
+  endMessage.textContent = '';
+  endMessage.style.display = 'block';
+
+  sceneDiv.style.backgroundImage = 'url(images/chambrenuit.jpg)';
+  fadeDiv.style.opacity = 1;
+
+  setTimeout(() => {
+    playSound('sons/dooropen.wav');
+  }, 1000);
+
+  setTimeout(() => {
+    playSound('sons/run.wav');
+    sceneDiv.style.backgroundImage = 'black';
+  }, 2500);
+
+  setTimeout(() => {
+    endMessage.style.display = 'none';
+  }, 5000);
+
+  setTimeout(() => {
+    window.close();
+  }, 4000);
+  }
+}
+
+});
+
+</script>
+</body>
+</html>
