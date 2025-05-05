@@ -1,20 +1,26 @@
-# Étape 1 : Build
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /app
+# === Build Stage ===
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
 
-# Copier uniquement le fichier .csproj pour optimiser le cache Docker
-COPY RoomBookingApi/*.csproj ./RoomBookingApi/
-WORKDIR /app/RoomBookingApi
+# Copier le fichier projet
+COPY backend.csproj ./
 RUN dotnet restore
 
-# Copier tout le code source
-COPY . /app
-RUN dotnet build -c Release -o /publish
+# Copier tout le code (y compris appsettings.json)
+COPY . ./
+
+# Publier en mode Release
 RUN dotnet publish -c Release -o /publish
 
-# Étape 2 : Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# === Runtime Stage ===
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
+
+# Copier les fichiers publiés
 COPY --from=build /publish .
+
+# Exposer le port
 EXPOSE 80
-CMD ["dotnet", "RoomBookingApi.dll"]
+
+# Point d'entrée
+ENTRYPOINT ["dotnet", "backend.dll"]

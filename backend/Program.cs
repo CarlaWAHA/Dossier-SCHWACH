@@ -6,7 +6,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔐 Configuration JWT
+// 🔐 JWT Configuration
 var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
@@ -42,51 +42,57 @@ builder.Services.AddCors(opt =>
         p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
+// ✅ 🔊 Force l'écoute sur le port 5000
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5000); // ⬅️ Ajouté ici
+});
+
 var app = builder.Build();
 
-// 🔧 Middleware
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseCors("AllowAll");
-
-app.UseAuthentication(); // Auth avant Authorization
-app.UseAuthorization();
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.MapControllers();
-
-// 🎬 Injection initiale si pas encore de films
+// ⚙️ Apply migrations before anything else
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 
-    if (!await context.Movies.AnyAsync(m => m.Title == "Inception"))
+    if (!await db.Movies.AnyAsync(m => m.Title == "Inception"))
     {
-        var movie = new backend.Models.Movie
+        db.Movies.Add(new backend.Models.Movie
         {
             Title = "Inception",
             Summary = "Un film de science-fiction sur les rêves partagés.",
             PosterUrl = "/posters/inception.jpg",
             TrailerUrl = "/trailers/inception.mp4",
             Actors = new List<backend.Models.Actor>
-        {
-            new() { Name = "Carla", Bio = "Actrice et développeuse Web" },
-            new() { Name = "Loïc", Bio = "Acteur et développeur Web" },
-            new() { Name = "Julie", Bio = "Actrice, développeuse Web" },
-            new() { Name = "Louna", Bio = "Actrice, communication" },
-            new() { Name = "Loane", Bio = "Actrice, animatrice 2D/3D" },
-            new() { Name = "Lyna", Bio = "Actrice, perchman" },
-            new() { Name = "Anas", Bio = "Développeur Web" },
-            new() { Name = "Karl", Bio = "Acteur, audiovisuel" },
-            new() { Name = "Julien", Bio = "Acteur, animateur 3D/2D" }
-        }
-    };
-        context.Movies.Add(movie);
-        await context.SaveChangesAsync();
+            {
+                new() { Name = "Carla", Bio = "Actrice et développeuse Web" },
+                new() { Name = "Loïc", Bio = "Acteur et développeur Web" },
+                new() { Name = "Julie", Bio = "Actrice, développeuse Web" },
+                new() { Name = "Louna", Bio = "Actrice, communication" },
+                new() { Name = "Loane", Bio = "Actrice, animatrice 2D/3D" },
+                new() { Name = "Lyna", Bio = "Actrice, perchman" },
+                new() { Name = "Anas", Bio = "Développeur Web" },
+                new() { Name = "Karl", Bio = "Acteur, audiovisuel" },
+                new() { Name = "Julien", Bio = "Acteur, animateur 3D/2D" }
+            }
+        });
+        await db.SaveChangesAsync();
     }
 }
+
+// 🔧 Middleware
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseCors("AllowAll");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapControllers();
 
 app.Run();
 
