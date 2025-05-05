@@ -1,0 +1,9 @@
+{
+    "environ": {
+      "DOTNET_RUNNING_IN_CONTAINER": "true"
+    },
+    "build": {
+      "dockerfile": "Dockerfile"
+    }
+  }
+  
