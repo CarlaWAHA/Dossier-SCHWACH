@@ -1,5 +1,4 @@
 {
     "name": "dossierschwach",
     "dockerfile_path": "backend/Dockerfile"
-  }
-  
+}
