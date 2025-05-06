@@ -45,7 +45,8 @@ builder.Services.AddCors(opt =>
 // ✅ 🔊 Force l'écoute sur le port 5000
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5000); // ⬅️ Ajouté ici
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+    options.ListenAnyIP(int.Parse(port));
 });
 
 var app = builder.Build();
@@ -84,6 +85,7 @@ using (var scope = app.Services.CreateScope())
 // 🔧 Middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.MapFallbackToFile("index.html");f
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

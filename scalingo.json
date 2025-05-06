@@ -1,9 +1,10 @@
 {
-    "environ": {
-      "DOTNET_RUNNING_IN_CONTAINER": "true"
-    },
-    "build": {
-      "dockerfile": "Dockerfile"
-    }
+    "name": "schwach",
+    "buildpacks": [
+      {
+        "url": "https://github.com/Scalingo/docker-buildpack"
+      }
+    ],
+    "dockerfile_path": "backend/Dockerfile"
   }
   

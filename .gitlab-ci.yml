@@ -1,0 +1,28 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  NODE_ENV: production
+
+before_script:
+  - echo "📦 CI/CD process started"
+
+build_frontend:
+  stage: build
+  image: node:20
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - backend/wwwroot
+    expire_in: 1 hour
+
+deploy_scalingo:
+  stage: deploy
+  script:
+    - echo " Deployment triggered – Scalingo will pull the latest code from GitLab"
+  only:
+    - develop
