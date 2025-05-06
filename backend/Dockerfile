@@ -1,20 +1,20 @@
-# Étape 1 : build du frontend
-FROM node:20 AS frontend
+# Stage 1 - Build frontend
+FROM node:20 AS frontend-build
 WORKDIR /app
 COPY frontend ./frontend
 RUN cd frontend && npm install && npm run build
 
-# Étape 2 : build du backend
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+# Stage 2 - Build backend
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY backend ./backend
-COPY --from=frontend /app/frontend/dist ./backend/wwwroot
+COPY backend/*.csproj ./backend/
+RUN dotnet restore ./backend/backend.csproj
+COPY backend/ ./backend/
+COPY --from=frontend-build /app/frontend/dist ./backend/wwwroot/
 RUN dotnet publish ./backend/backend.csproj -c Release -o /app/publish
 
-# Étape 3 : image finale
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# Stage 3 - Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-ENV ASPNETCORE_URLS=http://+:5000
-EXPOSE 5000
 ENTRYPOINT ["dotnet", "backend.dll"]

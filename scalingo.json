@@ -1,8 +1,13 @@
 {
     "name": "dossierschwach",
+    "buildpacks": [
+      {
+        "url": "https://github.com/Scalingo/docker-buildpack"
+      }
+    ],
     "dockerfile_path": "backend/Dockerfile",
     "build": {
-      "root_path": "backend"
+      "root_path": "."
     }
   }
   

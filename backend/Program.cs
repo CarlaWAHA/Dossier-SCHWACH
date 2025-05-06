@@ -7,7 +7,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // 🔐 JWT Configuration
-var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured.");
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
@@ -42,7 +42,7 @@ builder.Services.AddCors(opt =>
         p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
-// ✅ 🔊 Force l'écoute sur le port 5000
+// ✅ 🔊 Force l'écoute sur le port défini par Scalingo
 builder.WebHost.ConfigureKestrel(options =>
 {
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
@@ -85,7 +85,7 @@ using (var scope = app.Services.CreateScope())
 // 🔧 Middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.MapFallbackToFile("index.html");f
+app.MapFallbackToFile("index.html"); // ✅ corrigé ici
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

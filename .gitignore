@@ -1,4 +1,4 @@
-# Logs
+# ========== LOGS ==========
 logs
 *.log
 npm-debug.log*
@@ -7,16 +7,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Runtime data
+# ========== RUNTIME ==========
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# Dependency directories
+# ========== DEPENDENCIES ==========
 node_modules/
 
-# Build output
+# ========== BUILD OUTPUT ==========
 dist/
 dist-ssr/
 build/
@@ -26,14 +26,14 @@ temp/
 tmp/
 .cache/
 
-# Production
-*.local
+# ========== DOTNET BUILD ==========
+**/bin/
+**/obj/
 
-# Cypress
-/cypress/videos/
-/cypress/screenshots/
+# ========== VITE FRONTEND PUBLIC BUILD ==========
+!/backend/wwwroot/
 
-# Environment variables
+# ========== ENVIRONNEMENT ==========
 .env
 .env.*.local
 .env.local
@@ -41,17 +41,17 @@ tmp/
 .env.development.local
 .env.test.local
 
-# System files
+# ========== SYSTEM FILES ==========
 .DS_Store
 Thumbs.db
 ehthumbs.db
 Icon?
 Desktop.ini
 
-# TypeScript
+# ========== TYPESCRIPT ==========
 *.tsbuildinfo
 
-# IDEs and editors
+# ========== IDES / EDITORS ==========
 .vscode/*
 !.vscode/extensions.json
 .idea/
@@ -61,26 +61,21 @@ Desktop.ini
 *.sln
 *.sw?
 
-# Lint / formatting
+# ========== LINT / FORMATTING ==========
 .eslintcache
 .prettiercache
 
-# Media files (large)
-*.mp4
+# ========== MEDIA FILES ==========
 *.avi
 *.mov
 *.mkv
 *.webm
 *.flv
+*.mp4
+!frontend/public/trailers/*.mp4
 
-# OS-specific
+# ========== OS-SPECIFIC ==========
 *.orig
 *.bak
 *.tmp
 *.temp
-
-# Ignore tous les .mp4 par défaut
-*.mp4
-
-# ... sauf ceux du dossier trailers (utilisés avec Git LFS)
-!frontend/public/trailers/*.mp4
