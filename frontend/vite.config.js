@@ -25,6 +25,11 @@ export default defineConfig({
   build: {
     outDir: '../backend/wwwroot',
     emptyOutDir: true,
-    assetsDir: ''
+    assetsDir: '',
+    rollupOptions: {
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)), // Assurez-vous que le chemin est correct
+      }
+    }
   }
 })

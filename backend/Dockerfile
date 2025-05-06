@@ -1,5 +1,5 @@
 # Stage 1 - Build frontend
-FROM node:20 AS frontend-build
+FROM node:22 AS frontend-build
 WORKDIR /app
 COPY frontend ./frontend
 RUN cd frontend && npm install && npm run build
