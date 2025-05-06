@@ -1,5 +1,5 @@
 {
-    "name": "schwach",
+    "name": "dossierschwach",
     "dockerfile_path": "backend/Dockerfile"
   }
   
