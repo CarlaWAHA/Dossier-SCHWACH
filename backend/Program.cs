@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
+using backend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -17,7 +18,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = false; // ❗ À mettre à true en prod
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -42,7 +43,7 @@ builder.Services.AddCors(opt =>
         p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
-// ✅ 🔊 Force l'écoute sur le port défini par Scalingo
+// ✅ Force le port 5000 (même si PORT n'est pas défini)
 builder.WebHost.ConfigureKestrel(options =>
 {
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
@@ -51,7 +52,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
-// ⚙️ Apply migrations before anything else
+// ⚙️ Migrations automatiques + données de démo
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -59,13 +60,13 @@ using (var scope = app.Services.CreateScope())
 
     if (!await db.Movies.AnyAsync(m => m.Title == "Inception"))
     {
-        db.Movies.Add(new backend.Models.Movie
+        db.Movies.Add(new Movie
         {
             Title = "Inception",
             Summary = "Un film de science-fiction sur les rêves partagés.",
             PosterUrl = "/posters/inception.jpg",
             TrailerUrl = "/trailers/inception.mp4",
-            Actors = new List<backend.Models.Actor>
+            Actors = new List<Actor>
             {
                 new() { Name = "Carla", Bio = "Actrice et développeuse Web" },
                 new() { Name = "Loïc", Bio = "Acteur et développeur Web" },
@@ -85,7 +86,6 @@ using (var scope = app.Services.CreateScope())
 // 🔧 Middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.MapFallbackToFile("index.html"); // ✅ corrigé ici
 app.UseCors("AllowAll");
 
 app.UseAuthentication();
@@ -96,8 +96,12 @@ app.UseSwaggerUI();
 
 app.MapControllers();
 
+// 🧠 Pour apps SPA (Vue)
+app.MapFallbackToFile("index.html");
+
 app.Run();
 
+// 🧪 Test only (non utilisé)
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);

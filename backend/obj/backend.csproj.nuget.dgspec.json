@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\OneDrive\\Documents\\dossier-schwach\\backend\\backend.csproj": {}
+    "C:\\Users\\PC\\OneDrive\\Documents\\Dossier-SCHWACH\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\OneDrive\\Documents\\dossier-schwach\\backend\\backend.csproj": {
+    "C:\\Users\\PC\\OneDrive\\Documents\\Dossier-SCHWACH\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\OneDrive\\Documents\\dossier-schwach\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\OneDrive\\Documents\\Dossier-SCHWACH\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\PC\\OneDrive\\Documents\\dossier-schwach\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\PC\\OneDrive\\Documents\\Dossier-SCHWACH\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\OneDrive\\Documents\\dossier-schwach\\backend\\obj\\",
+        "outputPath": "C:\\Users\\PC\\OneDrive\\Documents\\Dossier-SCHWACH\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"

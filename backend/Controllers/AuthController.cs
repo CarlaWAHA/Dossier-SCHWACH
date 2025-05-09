@@ -4,72 +4,77 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BCrypt.Net;
 using backend.Data;
 using backend.Models;
-using System.Linq;
+using BCrypt.Net;
 
-namespace backend.controllers
-
-{ 
-[ApiController]
-[Route("api/[controller]")]
-
- public class AuthController : ControllerBase
+namespace backend.Controllers
 {
-    private readonly AppDbContext _context;
-    private readonly IConfiguration _config;
-
-    public AuthController(AppDbContext context, IConfiguration config)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
     {
-        _context = context;
-        _config = config;
-    }
+        private readonly AppDbContext _context;
+        private readonly IConfiguration _config;
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(UserDto userDto)
-    {
-        if (_context.Users.Any(u => u.Username == userDto.Username))
-            return BadRequest("Nom d'utilisateur déjà pris");
-
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-
-        var user = new User { Username = userDto.Username, PasswordHash = passwordHash };
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return Ok("Inscription réussie !");
-    }
-
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(UserDto userDto)
-    {
-        var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == userDto.Username);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
-            return Unauthorized("Identifiants invalides");
-
-        var token = GenerateJwtToken(user);
-        return Ok(new { token });
-    }
-
-    private string GenerateJwtToken(User user)
-    {
-        var claims = new[]
+        public AuthController(AppDbContext context, IConfiguration config)
         {
-            new Claim(ClaimTypes.Name, user.Username)
-        };
+            _context = context;
+            _config = config;
+        }
 
-       var jwtKey = _config["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured.");
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserDto userDto)
+        {
+            if (await _context.Users.AnyAsync(u => u.Username == userDto.Username))
+                return BadRequest("Nom d'utilisateur déjà pris");
 
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.Now.AddDays(7),
-            signingCredentials: creds
-        );
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+            var user = new User
+            {
+                Username = userDto.Username,
+                PasswordHash = passwordHash
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return Ok("Inscription réussie !");
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserDto userDto)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == userDto.Username);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash))
+                return Unauthorized("Identifiants invalides");
+
+            var token = GenerateJwtToken(user);
+
+            return Ok(new { token });
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddDays(7),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
-}
 }

@@ -24,14 +24,32 @@
 
     <!-- Like / Dislike / Views -->
     <div class="flex items-center gap-10 text-lg mb-10">
-      <button @click="toggleLike" :class="['flex items-center gap-2 transition', userLiked ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600']">
+      <button
+        @click="toggleLike"
+        :disabled="!isLoggedIn"
+        :class="[
+          'flex items-center gap-2 transition',
+          userLiked ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600',
+          !isLoggedIn ? 'opacity-50 cursor-not-allowed' : ''
+        ]"
+      >
         <span class="text-2xl">👍</span>
         <span class="font-semibold">{{ likeCount }}</span>
       </button>
-      <button @click="toggleDislike" :class="['flex items-center gap-2 transition', userDisliked ? 'text-red-600' : 'text-gray-700 hover:text-red-600']">
+
+      <button
+        @click="toggleDislike"
+        :disabled="!isLoggedIn"
+        :class="[
+          'flex items-center gap-2 transition',
+          userDisliked ? 'text-red-600' : 'text-gray-700 hover:text-red-600',
+          !isLoggedIn ? 'opacity-50 cursor-not-allowed' : ''
+        ]"
+      >
         <span class="text-2xl">👎</span>
         <span class="font-semibold">{{ dislikeCount }}</span>
       </button>
+
       <div class="flex items-center gap-2 text-gray-500">
         <span class="text-2xl">👁️</span>
         <span class="font-semibold">{{ views }}</span>
@@ -44,7 +62,12 @@
     <!-- Acteurs -->
     <h2 class="text-2xl font-semibold mb-2">Acteurs</h2>
     <ul class="list-disc ml-6 mb-6">
-      <li v-for="actor in movie.actors" :key="actor.id" class="text-blue-600 hover:underline cursor-pointer" @click="selectedActor = actor">
+      <li
+        v-for="actor in movie.actors"
+        :key="actor.id"
+        class="text-blue-600 hover:underline cursor-pointer"
+        @click="selectedActor = actor"
+      >
         {{ actor.name }}
       </li>
     </ul>
@@ -56,11 +79,12 @@
       <h2 class="text-2xl font-semibold mb-4">Commentaires ({{ topLevelComments.length }})</h2>
 
       <!-- Formulaire principal -->
-      <div class="flex flex-col md:flex-row gap-2 mb-6">
-        <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-2 rounded w-full md:w-1/4" />
+      <div v-if="isLoggedIn" class="flex flex-col md:flex-row gap-2 mb-6">
+        <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-2 rounded w-full md:w-1/4" readonly />
         <textarea v-model="newComment.content" placeholder="Votre commentaire" class="border border-gray-300 px-4 py-2 rounded w-full md:flex-1 resize-none" rows="3"></textarea>
         <button @click="submitComment" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Envoyer</button>
       </div>
+      <p v-else class="text-red-600 font-semibold mb-4">🔐 Connectez-vous pour commenter ce film.</p>
 
       <!-- Affichage des commentaires -->
       <div v-for="comment in topLevelComments" :key="comment.id" class="mb-6">
@@ -75,13 +99,13 @@
             </div>
             <p class="text-gray-700 leading-relaxed">{{ comment.content }}</p>
 
-            <button class="text-blue-600 text-sm mt-2 hover:underline" @click="replyToComment(comment.id)">
+            <button v-if="isLoggedIn" class="text-blue-600 text-sm mt-2 hover:underline" @click="replyToComment(comment.id)">
               {{ replyingTo === comment.id ? 'Annuler' : 'Répondre' }}
             </button>
 
             <!-- Répondre -->
-            <div v-if="replyingTo === comment.id" class="mt-4 space-y-2">
-              <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-1 rounded w-1/2" />
+            <div v-if="isLoggedIn && replyingTo === comment.id" class="mt-4 space-y-2">
+              <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-1 rounded w-1/2" readonly />
               <textarea v-model="newComment.content" placeholder="Votre réponse" class="border border-gray-300 px-4 py-2 rounded w-full resize-none" rows="2"></textarea>
               <button @click="submitComment" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
                 Envoyer la réponse
@@ -117,8 +141,11 @@ const userLiked = ref(false)
 const userDisliked = ref(false)
 const replyingTo = ref(null)
 
+const isLoggedIn = ref(!!localStorage.getItem('token'))
+const username = ref(localStorage.getItem('username') || '')
+
 const newComment = ref({
-  author: '',
+  author: username.value,
   content: ''
 })
 
@@ -205,7 +232,7 @@ const submitComment = async () => {
 
   await axios.post(`/api/movies/${route.params.id}/comments`, payload)
   await fetchMovie()
-  newComment.value = { author: '', content: '' }
+  newComment.value = { author: username.value, content: '' }
   replyingTo.value = null
 }
 </script>

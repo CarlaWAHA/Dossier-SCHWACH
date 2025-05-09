@@ -10,22 +10,16 @@
 
     <!-- 🎬 Onglets haut droite -->
     <div class="fixed top-6 right-36 flex gap-6 z-40">
-      <router-link to="/reservation" class="text-white text-lg hover:scale-125 transform transition-transform duration-300">
+      <router-link to="/reservation" class="text-white text-lg hover:scale-125 transition-transform duration-300">
         Réserver une projection
       </router-link>
-      <router-link to="/equipe" class="text-white text-lg hover:scale-125 transform transition-transform duration-300">
+      <router-link to="/equipe" class="text-white text-lg hover:scale-125 transition-transform duration-300">
         Équipe projet
       </router-link>
-      <router-link
-        v-if="!isLoggedIn"
-        to="/login"
-        class="text-white text-lg hover:scale-125 transform transition-transform duration-300">
+      <router-link v-if="!isLoggedIn" to="/login" class="text-white text-lg hover:scale-125 transition-transform duration-300">
         Connexion
       </router-link>
-      <router-link
-        v-if="!isLoggedIn"
-        to="/register"
-        class="text-white text-lg hover:scale-125 transform transition-transform duration-300">
+      <router-link v-if="!isLoggedIn" to="/register" class="text-white text-lg hover:scale-125 transition-transform duration-300">
         Inscription
       </router-link>
     </div>
@@ -60,7 +54,7 @@
           class="bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all max-w-6xl w-full min-h-[700px] flex flex-col justify-center mx-auto px-8">
           
           <!-- Titre -->
-          <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center">Schwach</h3>
+          <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center">{{ movie.title }}</h3>
           
           <!-- Photos équipe -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
@@ -128,17 +122,23 @@ const team = [
 ]
 
 onMounted(async () => {
-  const res = await axios.get('/api/movies')
-  movies.value = res.data
-
-  const myIP = res.data.ip
-  const adminIP = '79.85.149.201'
-  if (myIP === adminIP) showAdminButton.value = true
+  try {
+    const res = await axios.get('/api/movies')
+    movies.value = res.data
+  } catch (err) {
+    console.error('Erreur de récupération des films', err)
+  }
 
   const token = localStorage.getItem('token')
   if (token) {
     isLoggedIn.value = true
     connectedUser.value = localStorage.getItem('username')
+  }
+
+  // Facultatif : bouton admin visible selon IP ou rôle (à implémenter selon ton besoin)
+  const myIP = await axios.get('https://api.ipify.org?format=json')
+  if (myIP.data.ip === '79.85.149.201') {
+    showAdminButton.value = true
   }
 })
 

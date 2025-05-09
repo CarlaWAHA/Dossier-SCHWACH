@@ -1,10 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models;
-public class User
+namespace backend.Models
 {
-    [Key] 
-    public int Id { get; set; }
-    public required  string Username { get; set; }
-    public required string PasswordHash { get; set; } // Stocké hashé, jamais en clair
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public string Username { get; set; } = string.Empty;
+
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
+    }
 }
