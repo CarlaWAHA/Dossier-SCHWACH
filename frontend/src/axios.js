@@ -6,7 +6,7 @@ const host = window.location.hostname
 const port = 5000 // Port du backend ASP.NET Core
 
 // 🌐 Base URL complète
-axios.defaults.baseURL = import.meta.env.VITE_AP_BASE_URL
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
 
 // 🔐 Intercepteur pour ajouter le token JWT automatiquement
 axios.interceptors.request.use(config => {
