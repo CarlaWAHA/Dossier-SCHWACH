@@ -7,8 +7,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔐 JWT Configuration
-var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured.");
+// 🔐 JWT
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+    throw new InvalidOperationException("JWT key is not configured.");
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
@@ -18,7 +20,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; // ❗ À mettre à true en prod
+    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -30,20 +32,24 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 📦 Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// DB
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite("Data Source=app.db");
+});
+
+// CORS
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowAll", p =>
         p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
-// ✅ Force le port 5000 (même si PORT n'est pas défini)
+// Port pour Scalingo
 builder.WebHost.ConfigureKestrel(options =>
 {
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
@@ -52,7 +58,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
-// ⚙️ Migrations automatiques + données de démo
+// DB seeding
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -65,7 +71,7 @@ using (var scope = app.Services.CreateScope())
             Title = "Inception",
             Summary = "Un film de science-fiction sur les rêves partagés.",
             PosterUrl = "/posters/inception.jpg",
-            TrailerUrl = "/trailers/inception.mp4",
+            TrailerUrl = "https://www.youtube.com/embed/CSSDgm0LlOw",
             Actors = new List<Actor>
             {
                 new() { Name = "Carla", Bio = "Actrice et développeuse Web" },
@@ -74,35 +80,30 @@ using (var scope = app.Services.CreateScope())
                 new() { Name = "Louna", Bio = "Actrice, communication" },
                 new() { Name = "Loane", Bio = "Actrice, animatrice 2D/3D" },
                 new() { Name = "Lyna", Bio = "Actrice, perchman" },
+                new() { Name = "Zoé", Bio = "Actrice, productrice" },
                 new() { Name = "Anas", Bio = "Développeur Web" },
                 new() { Name = "Karl", Bio = "Acteur, audiovisuel" },
-                new() { Name = "Julien", Bio = "Acteur, animateur 3D/2D" }
+                new() { Name = "Julien", Bio = "Acteur, animateur 3D/2D" },
+                new() { Name = "Victor", Bio = "Acteur et audiovisuel" }
             }
         });
         await db.SaveChangesAsync();
     }
 }
 
-// 🔧 Middleware
+// Middleware
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseCors("AllowAll");
+if (Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")))
+{
+    app.UseStaticFiles();
+}
 
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.MapControllers();
-
-// 🧠 Pour apps SPA (Vue)
 app.MapFallbackToFile("index.html");
 
 app.Run();
-
-// 🧪 Test only (non utilisé)
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
