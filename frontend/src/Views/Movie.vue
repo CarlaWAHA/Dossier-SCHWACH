@@ -1,14 +1,13 @@
 <template>
-  <div class="w-full min-h-screen px-4 pt-6 pb-44 text-gray-900 bg-gray-50">
-    <h1 class="text-3xl font-bold mb-6 text-center">Schwach</h1>
+  <div class="w-full min-h-screen px-4 pt-6 pb-44 text-gray-900 bg-gray-70">
+    <h1 class="text-3xl font-bold mb-6 text-center">Dossier Schwach</h1>
 
     <!-- Vidéo + Affiche -->
     <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-10 w-full">
       <div class="w-full md:w-[55vw] h-[500px]">
         <iframe
-          v-if="movie.trailerUrl"
           :src="movie.trailerUrl"
-          title="Bande-annonce de {{ movie.title }}"
+          title="Film complet"
           class="w-full h-full rounded shadow-xl"
           allowfullscreen
         ></iframe>
@@ -57,7 +56,7 @@
     </div>
 
     <!-- Résumé -->
-    <p class="text-lg text-center text-gray-700 mb-10">{{ movie.summary }}</p>
+    <p class="text-lg text-center text-gray-700 mb-10">Dans un hotel, des jeunes personnes vont vivres des phénomènes étranges</p>
 
     <!-- Acteurs -->
     <h2 class="text-2xl font-semibold mb-2">Acteurs</h2>
@@ -84,7 +83,7 @@
         <textarea v-model="newComment.content" placeholder="Votre commentaire" class="border border-gray-300 px-4 py-2 rounded w-full md:flex-1 resize-none" rows="3"></textarea>
         <button @click="submitComment" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Envoyer</button>
       </div>
-      <p v-else class="text-red-600 font-semibold mb-4">🔐 Connectez-vous pour commenter ce film.</p>
+      <p v-else class="text-red-600 font-semibold mb-4">Connectez-vous pour commenter ce film.</p>
 
       <!-- Affichage des commentaires -->
       <div v-for="comment in topLevelComments" :key="comment.id" class="mb-6">
