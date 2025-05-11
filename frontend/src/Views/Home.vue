@@ -89,7 +89,7 @@
           <p class="mb-4 text-white text-lg"> <strong>Email :</strong> dossier.schwach@gmail.com</p>
           <p class="mt-6 text-blue-400 hover:underline">
             <a href="https://fr.tipeee.com/dossier-schwach-court-metrage-ydays" target="_blank">
-              Soutenir avec un don
+              Soutenez -nous avec un don
             </a>
           </p>
         </div>
