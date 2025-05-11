@@ -45,7 +45,7 @@
       </div>
     </section>
 
-    <!-- 🎞️ Section Films + Équipe -->
+     <!-- 🎞️ Section Films + Équipe -->
     <section class="px-6 pt-[485px] pb-44">
       <div class="flex flex-col items-center justify-center gap-14">
         <div
