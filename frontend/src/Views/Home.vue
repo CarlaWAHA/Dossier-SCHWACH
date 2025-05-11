@@ -24,9 +24,9 @@
       </router-link>
     </div>
 
-    <!-- 🔐 Info Connexion -->
+    <!--  Info Connexion -->
     <div v-if="isLoggedIn" class="fixed top-6 left-6 text-white font-bold z-50">
-      ✅ Connecté : {{ connectedUser }}
+      Connecté : {{ connectedUser }}
     </div>
     <button
       v-if="isLoggedIn"
@@ -37,16 +37,16 @@
 
     <!-- 🎬 Bannière principale -->
     <section>
-      <img src="/posters/schwach.jpg" alt="Bannière" class="absolute inset-0 w-full md:h-[525px] object-cover" />
+      <img src="/posters/schwach.jpg" alt="Bannière" class="absolute inset-0 w-full md:h-[555px] object-cover" />
       <div class="absolute inset-0 flex flex-col items-center justify-center">
-        <h1 class="text-white text-5xl md:text-7xl font-extrabold drop-shadow-md">
+        <h1 class="text-white text-5xl md:text-xl font-extrabold drop-shadow-md">
           🎬 Dossier Schwach
         </h1>
       </div>
     </section>
 
     <!-- 🎞️ Section Films + Équipe -->
-    <section class="px-6 pt-[580px] pb-44">
+    <section class="px-6 pt-[485px] pb-44">
       <div class="flex flex-col items-center justify-center gap-14">
         <div
           v-for="movie in movies"
@@ -54,7 +54,7 @@
           class="bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all max-w-6xl w-full min-h-[700px] flex flex-col justify-center mx-auto px-8">
           
           <!-- Titre -->
-          <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center">{{ movie.title }}</h3>
+          <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center">Equipe</h3>
           
           <!-- Photos équipe -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
@@ -73,19 +73,20 @@
 
           <!-- Résumé -->
           <p class="italic text-lg text-gray-600 mt-6 text-center leading-relaxed px-4">
-            {{ movie.summary.substring(0, 200) }}...
+           Genre : horreur
+
           </p>
         </div>
       </div>
     </section>
 
-    <!-- 📫 Footer Contact -->
+    <!--  Footer Contact -->
     <footer class="bg-black py-16 border-t mt-40">
       <div class="max-w-3xl mx-auto text-center px-6">
-        <h2 class="text-4xl font-bold mb-8 text-white">📫 Contact</h2>
+        <h2 class="text-4xl font-bold mb-8 text-white">Contact</h2>
         <div class="p-8 rounded-xl shadow-md bg-gray-900">
-          <p class="mb-4 text-white text-lg">📸 <strong>Instagram :</strong> dossier.schwach</p>
-          <p class="mb-4 text-white text-lg">📧 <strong>Email :</strong> dossier.schwach@gmail.com</p>
+          <p class="mb-4 text-white text-lg"> <strong>Instagram :</strong> dossier.schwach</p>
+          <p class="mb-4 text-white text-lg"> <strong>Email :</strong> dossier.schwach@gmail.com</p>
           <p class="mt-6 text-blue-400 hover:underline">
             <a href="https://fr.tipeee.com/dossier-schwach-court-metrage-ydays" target="_blank">
               Soutenir avec un don
@@ -118,7 +119,8 @@ const team = [
   { name: 'Lyna', role: 'Actrice, Perchman', image: '/posters/Lyna.jpg' },
   { name: 'Anas', role: 'Développeur Web', image: '/posters/Anas.jpg' },
   { name: 'Karl', role: 'Acteur, Audiovisuel', image: '/posters/Karl.jpg' },
-  { name: 'Julien', role: 'Acteur, Animateur 3D/2D', image: '/posters/Julien.jpg' }
+  { name: 'Julien', role: 'Acteur, Animateur 3D/2D', image: '/posters/Julien.jpg' },
+  { name: 'Loic', role: 'Actrice, Développeuse Web', image: '/posters/Loic.jpg' }
 ]
 
 onMounted(async () => {
