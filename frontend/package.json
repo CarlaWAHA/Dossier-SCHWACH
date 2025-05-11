@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "cp -r dist/* ../backend/wwwroot/",
+    "postbuild": "xcopy /E /I /Y dist\\* ..\\backend\\wwwroot\\",
     "preview": "vite preview --port $PORT",
     "start": "vite preview --port $PORT"
   },

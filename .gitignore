@@ -3,15 +3,12 @@ logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
 # ========== RUNTIME ==========
-pids
 *.pid
-*.seed
 *.pid.lock
+*.seed
 
 # ========== DEPENDENCIES ==========
 node_modules/
@@ -30,7 +27,7 @@ tmp/
 **/bin/
 **/obj/
 
-# ========== VITE FRONTEND PUBLIC BUILD ==========
+# ⚠️ Autoriser wwwroot pour les assets frontend compilés
 !/backend/wwwroot/
 
 # ========== ENVIRONNEMENT ==========
@@ -61,7 +58,7 @@ Desktop.ini
 *.sln
 *.sw?
 
-# ========== LINT / FORMATTING ==========
+# ========== LINT / FORMATTER ==========
 .eslintcache
 .prettiercache
 
@@ -74,7 +71,7 @@ Desktop.ini
 *.mp4
 !frontend/public/trailers/*.mp4
 
-# ========== OS-SPECIFIC ==========
+# ========== MISC ==========
 *.orig
 *.bak
 *.tmp
