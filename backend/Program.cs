@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // 🔐 JWT
 var jwtKey = Environment.GetEnvironmentVariable("JWT__KEY") 
              ?? builder.Configuration["Jwt:Key"];
-             
+
 if (string.IsNullOrEmpty(jwtKey))
     throw new InvalidOperationException("JWT key is not configured.");
 var key = Encoding.ASCII.GetBytes(jwtKey);
@@ -94,7 +94,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Middleware
-app.UseHttpsRedirection();
 if (Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")))
 {
     app.UseStaticFiles();
@@ -107,5 +106,14 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+Console.WriteLine(" Application lancée");
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Exception au démarrage : " + ex.Message);
+    throw;
+}
