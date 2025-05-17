@@ -29,7 +29,7 @@ namespace backend.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("ActorMovie");
+                    b.ToTable("ActorMovie", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.Actor", b =>
