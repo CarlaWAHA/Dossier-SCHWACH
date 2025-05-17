@@ -8,7 +8,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // 🔐 JWT
-var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtKey = Environment.GetEnvironmentVariable("JWT__KEY") 
+             ?? builder.Configuration["Jwt:Key"];
+             
 if (string.IsNullOrEmpty(jwtKey))
     throw new InvalidOperationException("JWT key is not configured.");
 var key = Encoding.ASCII.GetBytes(jwtKey);
