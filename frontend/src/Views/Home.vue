@@ -10,12 +10,6 @@
 
     <!-- 🎬 Onglets haut droite -->
     <div class="fixed top-6 right-36 flex gap-6 z-40">
-      <router-link to="/reservation" class="text-white text-lg hover:scale-125 transition-transform duration-300">
-        Réserver une projection
-      </router-link>
-      <router-link to="/equipe" class="text-white text-lg hover:scale-125 transition-transform duration-300">
-        Équipe projet
-      </router-link>
       <router-link v-if="!isLoggedIn" to="/login" class="text-white text-lg hover:scale-125 transition-transform duration-300">
         Connexion
       </router-link>
@@ -39,7 +33,7 @@
     <section>
       <img src="/posters/schwach.jpg" alt="Bannière" class="absolute inset-0 w-full md:h-[555px] object-cover" />
       <div class="absolute inset-0 flex flex-col items-center justify-center">
-        <h1 class="text-white text-5xl md:text-xl font-extrabold drop-shadow-md">
+        <h1 class="text-white text-7xl md:text-x7 font-extrabold drop-shadow-md">
           🎬 Dossier Schwach
         </h1>
       </div>
