@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full min-h-screen px-4 pt-6 pb-44 text-gray-900 bg-gray-70">
+  <div class="w-full min-h-screen px-2 pt-6 pb-44 text-gray-900 bg-gray-70">
     <h1 class="text-3xl font-bold mb-6 text-center">Dossier Schwach</h1>
 
     <!-- Vidéo + Affiche -->
@@ -21,39 +21,30 @@
       </div>
     </div>
 
-    <!-- Like / Dislike / Views -->
-    <div class="flex items-center gap-10 text-lg mb-10">
-      <button
-        @click="toggleLike"
-        :disabled="!isLoggedIn"
-        :class="[
-          'flex items-center gap-2 transition',
-          userLiked ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600',
-          !isLoggedIn ? 'opacity-50 cursor-not-allowed' : ''
-        ]"
-      >
-        <span class="text-2xl">👍</span>
-        <span class="font-semibold">{{ likeCount }}</span>
-      </button>
+   <div class="flex justify-center items-center gap-10 text-lg mb-8">
+        <button
+          @click="toggleLike"
+          class="flex items-center gap-2 transition"
+          :class="userLiked ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'"
+        >
+          <span class="text-2xl">👍</span>
+          <span class="font-semibold">{{ likeCount }}</span>
+        </button>
 
-      <button
-        @click="toggleDislike"
-        :disabled="!isLoggedIn"
-        :class="[
-          'flex items-center gap-2 transition',
-          userDisliked ? 'text-red-600' : 'text-gray-700 hover:text-red-600',
-          !isLoggedIn ? 'opacity-50 cursor-not-allowed' : ''
-        ]"
-      >
-        <span class="text-2xl">👎</span>
-        <span class="font-semibold">{{ dislikeCount }}</span>
-      </button>
+        <button
+          @click="toggleDislike"
+          class="flex items-center gap-2 transition"
+          :class="userDisliked ? 'text-red-600' : 'text-gray-700 hover:text-red-600'"
+        >
+          <span class="text-2xl">👎</span>
+          <span class="font-semibold">{{ dislikeCount }}</span>
+        </button>
 
-      <div class="flex items-center gap-2 text-gray-500">
-        <span class="text-2xl">👁️</span>
-        <span class="font-semibold">{{ views }}</span>
+        <div class="flex items-center gap-2 text-gray-700">
+          <span class="text-2xl">👁️</span>
+          <span class="font-semibold">{{ views }}</span>
+        </div>
       </div>
-    </div>
 
     <!-- Résumé -->
     <p class="text-lg text-center text-gray-700 mb-10">Dans un hotel, des jeunes personnes vont vivres des phénomènes étranges</p>
