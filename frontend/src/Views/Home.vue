@@ -60,27 +60,44 @@ function logout() {
 
 <template>
   <div class="font-comic absolute inset-0 w-full h-full object-cover bg-transparent">
-    <button
-      v-if="showAdminButton"
-      @click="goToAdmin"
-      class="fixed top-6 right-6 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 shadow-lg z-50">
-      Admin
-    </button>
+     <div class="fixed top-6 right-6 flex flex-wrap gap-x-4 items-center z-50">
+      <button
+        v-if="showAdminButton"
+        @click="goToAdmin"
+        class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 shadow-lg">
+        Admin
+      </button>
 
-    <button
-      @click="goToHotel"
-      class="fixed top-6 right-28 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 shadow-lg z-50">
-      Hôtel
-    </button>
+      <button
+        @click="goToHotel"
+        class="text-white py-2 px-4 rounded-lg hover:bg-blue-700 ">
+        Hôtel
+      </button>
 
-    <!-- Connexion / Inscription -->
-    <div class="fixed top-6 right-36 flex gap-6 z-40">
-      <router-link v-if="!isLoggedIn" to="/login" class="text-white text-lg hover:scale-125 transition-transform duration-300">
+      <router-link to="/anubis" class="text-white py-2 px-4 rounded-lg hover:bg-green-700 ">
+        Expérience Anubis
+      </router-link>
+
+      <router-link
+        v-if="!isLoggedIn"
+        to="/login"
+        class="text-white text-lg hover:scale-105 transition-transform duration-300">
         Connexion
       </router-link>
-      <router-link v-if="!isLoggedIn" to="/register" class="text-white text-lg hover:scale-125 transition-transform duration-300">
+
+      <router-link
+        v-if="!isLoggedIn"
+        to="/register"
+        class="text-white text-lg hover:scale-105 transition-transform duration-300">
         Inscription
       </router-link>
+
+      <button
+        v-if="isLoggedIn"
+        @click="logout"
+        class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+        Déconnexion
+      </button>
     </div>
 
     <div v-if="isLoggedIn" class="fixed top-6 left-6 text-white font-bold z-50">
@@ -109,7 +126,7 @@ function logout() {
           :key="movie.id"
           class="bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all max-w-6xl w-full min-h-[700px] flex flex-col justify-center mx-auto px-8">
 
-          <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center">Equipe</h3>
+          <h3 class="text-4xl font-bold text-blue-800 mb-10 text-center">Notre équipe</h3>
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
             <div v-for="person in team" :key="person.name" class="flex flex-col items-center">
