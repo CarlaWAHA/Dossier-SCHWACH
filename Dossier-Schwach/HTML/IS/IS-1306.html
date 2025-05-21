@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-0034</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-1306</h1> 
+        <p>Également désigné sous le nom de <strong>The Tracker</strong>.</p> 
+        <p><strong>Classification de l'anomalie :</strong> PR-8</p> 
+        <p>IS-1306 s'est révélé extrêmement difficile à contenir en raison de sa capacité exceptionnelle de contrôle mental à grande échelle. Son influence peut s'étendre sur un rayon de plusieurs dizaines de mètres, affectant simultanément plusieurs individus.</p> 
+        <p>Son confinement fut rendu possible grâce à l'intervention coordonnée du Chef de Terrain <strong>"BALMUNG"</strong> et de son second, <strong>"ASCALON"</strong>, lors d'une opération de neutralisation à haut risque.</p> 
+        <p>L'entité est capable de manipuler les pensées, les perceptions et les volontés de ses cibles, les transformant en extensions de sa propre conscience. L'effet est d'autant plus dangereux qu'il est silencieux, progressif, et souvent indécelable jusqu'à ce qu'il soit trop tard.</p> 
+        <p>En raison de ses propriétés uniques, IS-1306 est désormais considéré comme l'un des piliers centraux du projet <em>///////</em>, actuellement supervisé par le Scientifique en Chef <strong>"DAMOCLES"</strong>.</p> 
+        <p>Des contre-mesures neuroacoustiques sont actuellement en cours de développement pour limiter son rayon d'influence et protéger le personnel affecté au périmètre de confinement.</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

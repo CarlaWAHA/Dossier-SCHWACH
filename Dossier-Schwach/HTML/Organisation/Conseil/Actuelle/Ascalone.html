@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../../CSS/style.css">
+    <title>Balumung</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>ASCALON</h1> 
+        <p>Sous-chef de l'organisation</p> 
+        <p>Membre fondateur du conseil</p> 
+        <p>Ancien stratège de l'unité spéciale /////////, il fut recruté directement par N//////EP pour ses talents d'analyse et sa loyauté inébranlable</p> 
+        <p>Considéré comme l'architecte silencieux de nombreuses opérations majeures, il est à l'origine du plan de reconversion de GUNGNIR</p> 
+        <p>Son rôle fut déterminant durant la TITANOMACHIE, où il coordonna l'évacuation de trois zones critiques sous pression extrême</p> 
+        <p>Sa loyauté envers ANUBIS n'a jamais été remise en question, même lors de l'affaire ///N///// qu'il supervisa avec froideur</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

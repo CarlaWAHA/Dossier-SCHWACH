@@ -1,0 +1,191 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  margin: 0;
+  padding: 0;
+  background-color: #0a0a0a;
+  color: #c4c4c4;
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.container {
+  width: 85%;
+  margin: auto;
+  padding: 20px;
+  padding-top: 130px; /* Ajustez cette valeur pour correspondre à la hauteur du header */
+  text-align: left;
+  color: white;
+  border: 2px solid red;
+  box-shadow: 0 0 20px red;
+}
+
+h1, h2 {
+  font-size: 2.5em;
+  color: #ff0000;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+h1.header-glitch {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #ff0000;
+  padding-bottom: 10px;
+  animation: glitch 0.8s infinite alternate;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 2px 0 #ff0000, -2px -2px 0 #ff0000; }
+  100% { text-shadow: -2px -2px 0 #ff0000, 2px 2px 0 #ff0000; }
+}
+
+p {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100px; /* Fixez la hauteur du header */
+  background-color: black;
+  padding: 0 10px; /* Ajustez les paddings horizontaux */
+  box-shadow: 0 2px 5px rgba(255, 0, 0, 0.5);
+  border-bottom: 2px solid red;
+  display: flex;
+  align-items: center; /* Centre verticalement le contenu */
+  justify-content: space-between;
+  z-index: 1000;
+  overflow: hidden; /* Empêche le contenu de déborder */
+}
+
+.logo-img {
+  height: 160px; /* Ajustez la hauteur pour agrandir le logo */
+  width: auto; /* Conservez les proportions */
+  margin: 0; /* Supprimez les marges inutiles */
+  padding: 0; /* Supprimez les paddings inutiles */
+  transform: scale(1.2); /* Agrandit le logo sans affecter le cadre */
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; /* Centrer la barre de recherche */
+  max-width: 800px; /* Limite la largeur maximale */
+  padding: 10px; /* Ajoute un espace interne */
+  background-color: black; /* Fond noir */
+}
+
+.search-bar input, .search-bar button {
+  padding: 8px; /* Ajoute un espace interne */
+  font-size: 16px; /* Taille de la police */
+  border: 2px solid red; /* Bordure rouge */
+  border-radius: 4px; /* Coins arrondis */
+  background-color: black; /* Fond noir */
+  color: red; /* Texte rouge */
+  transition: background-color 0.3s, color 0.3s; /* Transition pour les interactions */
+}
+
+.search-bar input {
+  margin-right: 10px; /* Espace entre le champ et le bouton */
+  width: 70%; /* Largeur du champ de recherche */
+}
+
+.search-bar input::placeholder {
+  color: red; /* Couleur du texte du placeholder */
+  opacity: 0.7; /* Transparence du placeholder */
+}
+
+.search-bar button {
+  cursor: pointer; /* Change le curseur en pointeur */
+  box-shadow: 0 0 10px red; /* Effet d'ombre rouge */
+}
+
+.search-bar button:hover {
+  background-color: red; /* Fond rouge au survol */
+  color: black; /* Texte noir au survol */
+}
+
+.monster-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  justify-items: center;
+  padding: 20px;
+}
+
+.monster-list img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border: 2px solid #ff0000;
+  filter: grayscale(40%) contrast(120%);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.monster-list img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}
+
+.monster-card {
+  background-color: #121212;
+  border: 2px solid #ff0000;
+  padding: 25px;
+  margin-bottom: 25px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.monster-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+}
+
+.monster-card h2 {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  border-bottom: 2px dashed #ff0000;
+  padding-bottom: 5px;
+}
+
+.monster-card p {
+  font-size: 0.9em;
+  color: #b0b0b0;
+  font-weight: bold;
+}
+
+.monster-card .danger,
+.monster-card .classification,
+.monster-card .description,
+.monster-card .capabilities,
+.monster-card .vulnerabilities {
+  margin: 15px 0;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 10px;
+  border-left: 4px solid #ff0000;
+}
+
+.footer-note {
+  font-size: 0.75em;
+  color: #ff0000;
+  text-align: center;
+  margin-top: 40px;
+  border-top: 2px dashed #ff0000;
+  padding-top: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #ff0000;
+  font-weight: bold;
+}

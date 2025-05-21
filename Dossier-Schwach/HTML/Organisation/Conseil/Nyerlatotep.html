@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../CSS/style.css">
+    <title>Nyerlathotep</title>
+</head>
+<body class="osi-page">
+    <header>
+        <div class="logo">
+            <img src="../../../Image/OsiB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container logo-background">
+        <h1>NYERLATOTEP</h1>
+        <p>Grand Monarque d'Anubis</p>
+        <p>Grand dirigeant et fondateur de l'organisation ANUBIS, qui a pour but de contenir et d'étudier toutes les anomalies du monde</p>
+        <p>On sait très peu de son passé, mais il dirige avec fermeté son organisation</p>
+        <p>Il alla rencontrer chacun de ses membres fondateurs pour créer</p>
+        <p>Il jugea le traître '///N/////, suite aux événements de la TITANOMACHIE</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+<!-- MONSTRE -->
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-0023</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-0023</h1> 
+        <p>Nom attribué : <strong>Parasomnia</strong></p> 
+        <p><strong>Classification de l'anomalie :</strong> PR-8</p> 
+        <p>IS-0023 a représenté un défi majeur lors de sa capture, en raison de son immense pouvoir de <strong>contrôle mental à distance</strong>. Il est capable d'influencer simultanément plusieurs esprits humains dans un rayon de plusieurs dizaines de mètres, créant des hallucinations, des pertes de volonté ou des états de sommeil éveillé.</p> 
+        <p>Son confinement n'a été rendu possible que grâce à l'intervention coordonnée du Chef de Terrain <strong>BALMUNG</strong> et de son second, <strong>ASCALON</strong>. L'opération de capture est aujourd'hui encore classée parmi les missions à haut risque réussies de justesse.</p> 
+        <p>Parasomnia est aujourd'hui maintenu dans une chambre isolée et renforcée, spécialement conçue pour bloquer toute émission mentale ou psionique. Malgré les mesures de sécurité extrêmes, des effets résiduels sont parfois signalés dans les secteurs adjacents, justifiant une surveillance constante.</p> 
+        <p>IS-0023 joue un rôle central dans le cadre du projet <em>///////</em>, actuellement dirigé par le scientifique en chef <strong>DAMOCLES</strong>. Ses capacités mentales, bien que dangereuses, pourraient représenter une clé pour le développement des technologies de neutralisation cognitive.</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../../CSS/style.css">
+    <title>Gungnir</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>GUNGNIR</h1>
+        <p>Chef de Terrain</p>
+        <p>Membre du conseil</p>
+        <p>Ancien membre de /////////, il en fut exclu après avoir /////////. Il rejoingnie l'organisation sur la demande du sous-chef 'ASCALON'</p>
+        <p>Il fut impliqué dans de nombreuse opérations, telle que RAGNAROK où il fut promu chef de la section</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

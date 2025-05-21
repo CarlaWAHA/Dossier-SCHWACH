@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../CSS/style.css">
+    <title>RAPPORT OSIRIS</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>RAPPORT DE SYNTHÈSE - PROJET : OSIRIS</h1>
+        <br><br>
+        <p>Classification : ULTRA CONFIDENTIEL</p> 
+        <p>Date : [20XX]</p>
+        <img src="../../../Image/OsiB.png" alt="Logo OsiB" class="inline-logo">
+        <p>Direction du projet : Dr. LONGINUS (successeur désigné), sous l'autorité du Grand Monarque</p>
+        <p>Responsable précédent : Dr. SHANDRAHA (révoqué pour trahison)</p>
+        <p>Statut : Phase expérimentale avancée / Instabilité critique</p>
+        <br><br>
+        <h2>OBJECTIF DU PROJET</h2>
+        <br><br>
+        <p>Le Projet OSIRIS a été initié sur ordre direct du Grand Monarque, dans un cadre de développement confidentiel, au sein des installations de recherche avancée.</p>
+        <p>Son objectif principal est la création d'IS, par fusion et manipulation de matériel génétique issu de deux spécimens désignés :</p> 
+        <ul> <p>IS-1895</p> <p>IS-0023</p> </ul>
+        <p>Le protocole originel a été conçu par le Dr. SHANDRAHA, alors Scientifique en Chef, et constitue une tentative sans précédent d'altération biologique et métaphysique.</p>
+        <br><br> 
+        <h2>PHASE DE TEST</h2>
+        <br><br> <br><br>
+        <p>Un unique essai expérimental a été mené, impliquant le sujet désigné DURENDAL.</p> <p>Les résultats de l'expérimentation restent à ce jour inconclusifs.</p>
+        <p>L'état du cobaye demeure inconnu, et aucune récupération n'a été possible depuis l'événement.</p>
+        <p>Des manifestations numériques erratiques et des perturbations non-identifiées persistent dans les sections affectées par le test, toujours en cours d'analyse par les équipes de surveillance.</p>
+        <br><br> <br><br>
+        <h2>IMPACT DE LA TITANOMACHIE SUR LE PROJET</h2>
+        <br><br> <br><br>
+        <p>L'incident TITANOMACHIE a provoqué une instabilité grave dans les fondations du projet OSIRIS.</p>
+        <p>La perte du sujet expérimental, combinée aux sabotages internes perpétrés par SHANDRAHA, a entraîné une redéfinition des priorités et une suspension temporaire de certaines phases du programme.</p> 
+        <p>Des contre-mesures de sécurité génétique et ontologique sont actuellement en cours de mise en place pour éviter toute récidive.</p>
+        <br><br> <br><br>
+        <h2>CONCLUSION & RECOMMANDATIONS</h2>
+        <br><br> <br><br>
+        <p>Le Projet OSIRIS demeure un programme à haut potentiel, bien que ses risques soient élevés.</p> 
+        <p>Il est recommandé de maintenir l'ensemble des recherches sous surveillance renforcée, en coordination avec le Conseil.</p> 
+        <br><br> <br><br>
+        <h2>Fin du rapport.</h2>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-1895</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-1895</h1>
+        <p>Également connu sous le nom de <strong>SkinCrawler</strong>.</p> 
+        <p><strong>Classification de l'anomalie :</strong> PR-6</p> 
+        <p>L'anomalie a été découverte en <em>///////</em> par le Chef de Terrain <strong>"BALMUNG"</strong>, lors d'une mission de reconnaissance en zone hostile. Elle fut rapidement rapatriée au complexe de confinement sécurisé situé à <em>///////</em>.</p> 
+        <p>Son étude fut confiée au Scientifique en Chef <strong>"DAMOCLES"</strong>, qui, grâce à IS-1895, put lancer les premières phases du projet <em>///////</em>.</p> 
+        <p>IS-1895 possède la capacité de modifier sa forme et son apparence à volonté, imitant avec une précision troublante les traits, les voix et les comportements d'individus humains. Cette aptitude en fait un maître de l'infiltration, presque impossible à identifier à l'œil nu.</p> 
+        <p>Néanmoins, les dispositifs optiques — notamment les caméras numériques et thermiques — révèlent systématiquement sa véritable apparence : une silhouette humanoïde décharnée, dénuée de peau, aux mouvements erratiques, comme si chaque geste était effectué à contre-courant de la réalité.</p> 
+        <p>L'exposition prolongée à son image réelle provoque chez certains sujets des troubles cognitifs sévères : anxiété aiguë, hallucinations auditives, et dans les cas extrêmes, un rejet total de leur propre identité corporelle, parfois irréversible.</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

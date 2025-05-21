@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../CSS/Evènement.css">
+    <title>RAPPORT RAGNARÖK</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+
+        <h1>RAPPORT MISSION - OPÉRATION RAGNARÖK</h1>
+
+        <br><br\>
+        <br><br\>
+
+        <p>Classification : ULTRA CONFIDENTIEL</p>
+        <p>Date : [20XX]</p>
+        <p>Responsable de mission : DAMOCLES (ancien Chef de Terrain)</p>
+        <p>Objectif : Capture de l'IS-1895</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>DÉROULEMENT DE L'OPÉRATION</h2>
+
+        <br><br\>
+        <br><br\>
+
+        <p>L'opération RAGNARÖK a été lancée conformément aux directives stratégiques émises par le Conseil, avec pour objectif précis et prioritaire l'acquisition, la neutralisation et le transport sécurisé de l'IS-1895, une entité jugée instable et d'un intérêt scientifique exceptionnel.</p>
+        <p>L'équipe d'intervention, opérant sous le commandement direct de DAMOCLES, s'est infiltrée dans la zone cible à ///////. L'approche tactique s'est déroulée dans le silence radio complet afin de limiter tout risque de détection prématurée. Le périmètre a été sécurisé en un temps record, permettant un déploiement rapide et précis des agents.</p>
+        <p>La cible a été localisée après une phase de reconnaissance de terrain complexe, marquée par une activité environnementale inhabituelle. L'engagement s'est révélé immédiat et particulièrement violent. L'IS-1895 a opposé une résistance intense, nécessitant la mise en œuvre de mesures de confinement de niveau supérieur. Grâce à une coordination rigoureuse et à l'intervention décisive de DAMOCLES, l'entité a pu être neutralisée.</p>
+        <p>Cependant, au moment critique de l'exfiltration, la mission a été compromise par l'apparition soudaine d'une menace imprévue et non identifiée. DAMOCLES, en tant que responsable d'unité, a pris la décision de couvrir la retraite de ses coéquipiers, engagement héroïque durant lequel il a subi des blessures fatales.</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>RÉSULTATS</h2>
+
+        <br><br\>
+        <br><br\>
+
+        <p>Statut de l'opération : Succès partiel</p>
+        <p>IS-1895 : Capturé et transféré en lieu sécurisé pour analyse approfondie par les équipes autorisées.</p>
+        <p>Pertes : DAMOCLES (ancien Chef de Terrain) - décès confirmé. Aucun autre décès signalé, mais plusieurs blessés légers à modérés sont à déplorer.</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>CONCLUSION & RECOMMANDATIONS</h2>
+
+        <br><br\>
+        <br><br\>
+
+        <p>Même si l'objectif principal de la mission — à savoir la capture de l'IS-1895 — a été atteint avec succès, la perte opérationnelle de DAMOCLES représente un coût humain et stratégique extrêmement lourd.</p>
+        <p>Une enquête interne a été ouverte afin de déterminer les facteurs ayant conduit à l'apparition de la menace inattendue lors de la phase d'exfiltration. L'analyse détaillée des données enregistrées sur le terrain est en cours pour comprendre l'enchaînement exact des événements et identifier les failles potentielles.</p>
+        <p>Le Conseil recommande la révision des procédures d'extraction d'urgence, une évaluation complète des protocoles de couverture tactique, ainsi qu'un audit complet des opérations impliquant des entités de classe IS.</p>
+        <br><br\>
+        <br><br\>
+
+        <h2>Fin du rapport.</h2>
+
+
+            
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

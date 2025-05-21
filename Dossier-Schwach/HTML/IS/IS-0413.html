@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-0413</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-0413</h1> 
+        <p>Également connu sous le nom de <strong>Checkeurs</strong></p> 
+        <p><strong>Classification de l'anomalie :</strong> PL-1</p> 
+        <p>Une quantité importante d'IS-0413 a été enregistrée depuis l'année 1999. Compte tenu de leur nombre considérable, il est actuellement difficile, voire impossible, de les contenir ou de localiser chaque entité de manière systématique.</p> 
+        <p>Le Chef de Sécurité <strong>LONGINUS</strong> a fait état de son analyse dans son rapport N°<em>/////</em> : <strong>"Les Checkeurs restent des entités mystérieuses. Leur apparition est toujours aussi énigmatique à ce jour. Ils se présentent sous une forme humanoïde d'une taille anormalement grande, avec un visage profondément inexpressif, comme figé dans une contemplation interminable."</strong></p> 
+        <p>Le comportement typique d'IS-0413 consiste à entrer silencieusement dans une pièce fermée, en entrebâillant légèrement la porte, et à observer un individu présent. Quelques secondes après leur arrivée, ils repartent sans laisser de trace, comme s'ils n'étaient jamais venus. Les rapports disponibles sur leur activité varient, allant de <em>//////</em> à <em>//////</em>, mais aucun d'entre eux n'a fait état d'agression physique ou mentale de la part des Checkeurs.</p> 
+        <p>Bien que leur nombre soit élevé et leur présence souvent perturbante, il convient de souligner qu'IS-0413 ne manifeste aucune agressivité envers l'humain. Leur rôle ou intention reste inconnu, mais leur comportement semble dénué de toute hostilité ouverte.</p> 
+    </div>
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

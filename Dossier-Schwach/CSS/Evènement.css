@@ -1,0 +1,147 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200vh;
+    margin: 0;
+    background-color: black;
+    color: red;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    padding-top: 60px;
+  }
+  
+  .container {
+    position: relative;
+    padding: 20px;
+    color: white;
+    z-index: 1;
+    border: 2px solid red;
+    display: inline-block;
+    box-shadow: 0 0 20px red;
+  }
+  
+  h1 {
+    font-size: 3em;
+    text-transform: uppercase;
+  }
+  
+  p {
+    font-size: 1.2em;
+  }
+  
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: black;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(255, 0, 0, 0.5);
+    z-index: 1000;
+    border-bottom: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo-img {
+    height: 50px;
+    width: auto;
+  }
+  
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 10px;
+    background-color: black;
+  }
+  
+  .search-bar input {
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 10px;
+    border: 2px solid red;
+    border-radius: 4px;
+    background-color: black;
+    color: red;
+    width: 70%;
+  }
+  
+  .search-bar input::placeholder {
+    color: red;
+    opacity: 0.7;
+  }
+  
+  .search-bar button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: black;
+    color: red;
+    border: 2px solid red;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 10px red;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .search-bar button:hover {
+    background-color: red;
+    color: black;
+  }
+  
+  .logo-background {
+    position: relative;
+    padding: 20px;
+    color: white;
+    z-index: 1;
+  }
+  
+  .logo-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../Image/OsiB.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0.1;
+    z-index: -1;
+  }
+  
+  .osib-logo {
+    position: absolute; /* Positionne l'image par rapport au conteneur */
+    bottom: 10px; /* Place l'image à 10px du bas */
+    right: 10px; /* Place l'image à 10px de la droite */
+    width: 50px; /* Ajuste la taille de l'image */
+    height: auto; /* Conserve les proportions */
+    opacity: 0.5; /* Applique une transparence uniquement à l'image */
+    pointer-events: none; /* Empêche l'interaction avec l'image */
+  }
+  
+  .inline-logo {
+      width: 20px; /* Ajustez la taille selon vos besoins */
+      height: auto; /* Conserve les proportions */
+      margin-left: 10px; /* Ajoute un espace entre le texte et l'image */
+      vertical-align: middle; /* Aligne l'image avec le texte */
+  }
+  
+  .o-container {
+      display: inline-block;
+      position: relative;
+      width: 1em; /* Taille du "O" */
+      height: 1em; /* Taille du "O" */
+      vertical-align: middle; /* Aligne le logo avec le texte */
+  }
+  
+  .o-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%; /* Ajuste la largeur pour remplir le "O" */
+      height: 100%; /* Ajuste la hauteur pour remplir le "O" */
+      object-fit: contain; /* Garde les proportions de l'image */
+  }

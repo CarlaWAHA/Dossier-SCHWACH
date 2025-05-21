@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-1989</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-1989</h1> 
+        <p>Également désignée sous le nom de <strong>Braineater</strong>.</p> 
+        <p><strong>Classification de l'anomalie :</strong> NPL-5</p> 
+        <p>L'anomalie a été découverte en <em>///////</em> par les unités de reconnaissance de GUNGNIR, lors d'une opération menée en zone rouge.</p> 
+        <p>Une fois extraite, elle fut transférée vers le complexe de confinement d'urgence situé à <em>///////</em>, où elle fut immédiatement soumise au protocole de sécurité mentale de niveau supérieur.</p> 
+        <p>Le scientifique en chef LONGINUS fut chargée de son analyse. Grâce à IS-1989, ils purent lancer les premiers essais du programme <em>///////</em>.</p> 
+        <p>IS-1989 possède la capacité de s'infiltrer dans l'esprit humain par le biais de fréquences auditives à peine détectables, lui permettant d'altérer subtilement les émotions, les pensées et les intentions de ses cibles.</p>
+        <img src="../../Image/OsiB.png" alt="Logo OsiB" class="osib-logo">
+    </div>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+<!-- CONVERSION -->
+</html>

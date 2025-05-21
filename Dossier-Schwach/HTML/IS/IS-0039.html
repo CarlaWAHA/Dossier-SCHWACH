@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-0039</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-0039</h1> 
+        <p>Nom attribué : <strong>Le son</strong></p> 
+        <p><strong>Classification de l'anomalie :</strong> NPL-7</p>
+        <p>IS-0039 proviendrait près d'un phare situé au <em>//////</em>. La zone est entièrement quadrillée pour empêcher quiconque de s'y approcher. Être proche du phare, en dessous d'~1 km, résulte en l'entente d'un son similaire à un chant de baleines,</p> 
+        <p>entraînant toute personne dans une profonde dépression, se finissant principalement par un <strong>suicide par noyade</strong> sur la plage située en face du phare. D'après certains tests effectués sur des criminels, une fois le son entendu, il est quasiment impossible d'éviter le suicide,</p> 
+        <p>bien que son action varie dans le temps chez certaines personnes. Un criminel du nom de <em>/////</em>, condamné à mort pour le meurtre d'une famille de 5 personnes, a été le premier cobaye à entrer en contact avec IS-0039 après approbation du tribunal,</p> 
+        <p>le jugeant trop dangereux et inhumain, et estimant que sa vie devait au moins servir à quelque chose une fois. D'après ses derniers mots et une analyse du cerveau après l'acte, il aurait eu une hallucination de ses victimes, l'entraînant dans une profonde culpabilité, le poussant à se noyer sur la plage.</p> 
+        <p>IS-0039 semble retracer des moments de notre vie pour commettre l'irréparable et semble être capable d'agir sur <strong>n'importe quelle personne</strong>.</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

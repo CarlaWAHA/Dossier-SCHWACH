@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-1033</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-1033</h1> 
+        <p>Nom attribué : <strong>Le consolateur</strong></p> 
+        <p><strong>Classification de l'anomalie :</strong> PL-3</p>
+        <p>IS-1033 est l'un des plus récents IS référencés, d'après le document officiel de <em>/////</em>. Dans le dossier numéro <em>///</em> retraçant deux rencontres avec IS-1033,</p>
+        <p>IS-1033 se présente comme un humain bien habillé, à la voix douce et réconfortante. Très peu d'informations à son sujet, dues à sa récente découverte, nous questionnent sur son origine et son but.</p>
+        <p>Grâce à la participation de Monsieur <strong>"GUNGNIR"</strong>, certains témoignages affirmeraient peut-être une rencontre avec IS-1033 bien avant les deux rencontres documentées dans le dossier numéro <em>////</em>.</p>
+        <p>Monsieur <strong>"GUNGNIR"</strong> stipule dans son journal que, d'après ses témoignages, <strong>n'aurait vu le visage de IS-1033</strong>, toujours caché par quelque chose, comme de la lumière ou le plafond d'un escalier qui descend.</p>
+        <p>IS-1033 comuniquerait à ses personnes en les rassurant, les félicitant, et en parlant de leur vie en détail.<strong>(Contenu sensible et privé restreint — référez-vous à votre supérieur.)</strong></p>
+        <p>Une phrase revenait souvent dans les témoignages, selon Monsieur <strong>"GUNGNIR"</strong> :</p>
+        <p><strong>"Tu es la personne la plus talentueuse, la plus intéressante et la plus extraordinaire de l'univers. Et tu es capable de choses incroyables."</strong></p>
+        <p>Ses bienfaits et les résultats obtenus sur les gens ayant été la cible de IS-1033 lui ont valu le nom de "Consolateur". <strong>Enquête en cours d’acheminement, mais aucune capture n'est prévue.</strong></p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

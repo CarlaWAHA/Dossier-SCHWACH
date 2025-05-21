@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>Hiérarchie d'Anubis</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <script>
+        function searchPage() {
+            const input = document.getElementById('searchInput').value.trim().toLowerCase(); // Normalise l'entrée
+            const pages = ['damocles', 'IS-1895', 'hierarchie']; // Liste des pages sans extension
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html'; // Ajoute l'extension pour rediriger
+            } else {
+                document.getElementById('errorMessage').style.display = 'block'; // Affiche le message d'erreur
+            }
+        }
+    </script>
+    
+<div class="container">
+    <h1 class="header-glitch" data-text="ARCHIVES DES ENTITÉS">ARCHIVES DES ENTITÉS</h1>
+
+    <!-- Fiches des monstres -->
+    <div class="monster-card" data-link="IS-0000.html">
+        <h2 class="glitch">Celui qui précédait tout (IS-0000)</h2>
+        <p class="classification">Classification : Inclassable</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : Inclassable</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-0023.html">
+        <h2 class="glitch">Parasomnia (IS-0023)</h2>
+        <p class="classification">Classification : Physique, Rapide</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : PR-8</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-0039.html">
+        <h2 class="glitch">Le son (IS-0039)</h2>
+        <p class="classification">Classification : Non-Physique</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : NP-7</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-0067(vide).html">
+        <h2 class="glitch">vide</h2>
+        <p class="classification">Classification : </p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : </span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-0113.html">
+        <h2 class="glitch">Thanatopræda (IS-0113)</h2>
+        <p class="classification">Classification : Non-Physique, X</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : NPX-10</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-0413.html">
+        <h2 class="glitch">Checkeurs (IS-0413)</h2>
+        <p class="classification">Classification : Physique, Lent</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : PL-1</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-1033.html">
+        <h2 class="glitch">Le consolateur (IS-1033)</h2>
+        <p class="classification">Classification : Physique</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : P-2</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-1306.html">
+        <h2 class="glitch">The Tracker (IS-1306)</h2>
+        <p class="classification">Classification : Physique, Rapide</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : PR-8</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-1890(vide).html">
+        <h2 class="glitch">vide</h2>
+        <p class="classification">Classification : </p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : </span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-1895.html">
+        <h2 class="glitch">SkinCrawler (IS-1895)</h2>
+        <p class="classification">Classification : Physique, Rapide</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : PR-6</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-1919.html">
+        <h2 class="glitch">Shellskull (IS-1919)</h2>
+        <p class="classification">Classification : </p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : </span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-1989.html">
+        <h2 class="glitch">Braineater (IS-1989)</h2>
+        <p class="classification">Classification : Non-physique</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : NP-6</span></p>
+    </div>
+
+    <div class="monster-card" data-link="IS-2010.html">
+        <h2 class="glitch">Fleuble (IS-2010)</h2>
+        <p class="classification">Classification : Physique, Lent</p>
+        <p class="danger"><span data-danger="eleve">Niveau de Danger : PL-1</span></p>
+    </div>
+
+    
+    <!-- Lien vers les explications des classifications -->
+    <footer>
+        <p>Pour plus d'informations sur les classifications et particularités, visitez la page : 
+            <a href="classifications.html">Explications des classifications</a>
+        </p>
+    </footer>
+</div>
+<script>
+    // Rendre chaque carte cliquable
+    document.querySelectorAll('.monster-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const link = card.getAttribute('data-link');
+            if (link) {
+                window.location.href = link;
+            }
+        });
+    });
+
+    function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+</script>
+
+</body>
+</html>

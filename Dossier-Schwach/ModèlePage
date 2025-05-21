@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../../../CSS/style.css">
+    <title>Balumung</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../../Images/AnuB-logo.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>BALMUNG</h1>
+        <p>Chef de la Sécurité</p>
+        <p>Membre du conseil</p>
+        <p>Ancien garde de la société /////////, il fut approché par l'ancien chef de terrain ///////// pour assuré la sécurité de l'organisation</p>
+        <p>Il s'est particuliérememnt illustré lors de la TITANOMACHIE survenue en 20XX</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = {
+                'repertoire' : '/IS/repertoire.html',
+                'is-0000': '/IS/IS-0000.html',
+                'is-0023': '/IS/IS-0023.html',
+                'is-0039': '/IS/IS-0039.html',
+                'is-0067': '/IS/IS-0067.html',
+                'is-0113': '/IS/IS-0113.html',
+                'is-0413': '/IS/IS-0413.html',
+                'is-1033': '/IS/IS-1033.html',
+                'is-1306': '/IS/IS-1306.html',
+                'is-1890': '/IS/IS-1890.html',
+                'is-1895': '/IS/IS-1895.html',
+                'is-1919': '/IS/IS-1919.html',
+                'is-1989': '/IS/IS-1989.html',
+                'is-2010': '/IS/IS-2010.html',
+                'index': '/Doc/Index.html',
+                'guide': '/Doc/Guide.html',
+                'hierarchie': '/Doc/Hierarchie.html',
+                'necronomicon': '/Doc/Necronomicon.html',
+                'conversion': '/Organisation/Cobaye/Note/Dur_Brain.html',
+                'meurtre': '/Organisation/Cobaye/Note/Dur_Damo.html',
+                'monstre': '/Organisation/Cobaye/Note/Dur_Nyr.html',
+                'experience': '/Organisation/Cobaye/Note/Dur_Long.html',
+                'science' : '/Organisation/Cobaye/Note/Dur_Shan.html',
+                'revolte': '/Organisation/Cobaye/Note/Dur_tita.html',
+                'durandal': '/Organisation/Cobaye/Durandal.html',
+                'ascalone': '/Organisation/Conseil/Actuelle/Ascalone.html',
+                'balmung': '/Organisation/Conseil/Actuelle/Balmung.html',
+                'gungnir': '/Organisation/Conseil/Actuelle/Gungnir.html',
+                'longinus': '/Organisation/Conseil/Actuelle/Longinus.html',
+                'damocles': '/Organisation/Conseil/Anciens/Damocles.html',
+                'shanraha': '/Organisation/Conseil/Anciens/Shanraha.html',
+                'nyerlathotep': '/Organisation/Conseil/Nyarlathotep.html',
+                'genese': '/Organisation/Evenement/Genese.html',
+                'osiris': '/Organisation/Evenement/Osiris.html',
+                'ragnarok': '/Organisation/Evenement/Ragnarok.html',
+                'titanomachie': '/Organisation/Evenement/Titanomachie.html',
+            };
+
+            document.getElementById('errorMessage').style.display = 'none';
+
+            if (pages[input]) {
+                window.location.href = pages[input];
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

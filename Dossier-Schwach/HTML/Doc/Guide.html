@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/FaussePiste.css">
+    <title>Les Principe d'Anubis</title>
+</head>
+<body>
+
+    <header> 
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <br><br\>
+        <br><br\>
+        <br><br\>
+        <br><br\>
+        <br><br\>        
+        <br><br\>
+        <br><br\>
+        <br><br\>
+        <br><br\>
+        <h1>Principe Central :</h1>
+        <h1>Observer, Juger, Dominer</h1>
+
+        <h2>Guide Opérationnel de l'Organisation ANUBIS</h2>
+
+        <p>
+            L'Organisation ANUBIS ne se limite pas à la simple neutralisation des phénomènes anormaux. 
+            Elle se donne pour mission de comprendre, de cataloguer, et — lorsque cela est possible — 
+            d'exploiter les propriétés uniques de ces entités et objets en dehors des normes naturelles. 
+            Chaque anomalie est perçue non seulement comme une menace potentielle, mais aussi comme 
+            une opportunité de percer les limites de la connaissance humaine.
+        </p>
+
+        <h2>PROTOCOLES DE SÉCURITÉ</h2>
+
+        <p>
+            L'intégrité de l'infrastructure, la sécurité du personnel, et la préservation du secret 
+            sont les priorités absolues d'ANUBIS. Toute interaction avec une anomalie est encadrée 
+            par un ensemble de directives strictes, mises à jour régulièrement par le Conseil de Surveillance.
+        </p>
+
+        <ul>
+            <li>Toute interaction directe avec une anomalie doit impérativement être supervisée par un ou plusieurs agents de sécurité de niveau 3 ou supérieur.</li>
+            <li>Les protocoles expérimentaux impliquant une anomalie doivent être approuvés par au moins deux membres du Conseil Supérieur.</li>
+            <li>En cas de perte de contrôle d'une anomalie, le déclenchement immédiat du Protocole "Passeur de l'Ombre" est requis (incluant l'éradication, le confinement d'urgence, ou l'utilisation contrôlée d'une seconde anomalie).</li>
+            <li>Lors d'une brèche de confinement ou d'une fuite d'information, toutes les données sensibles doivent être supprimées des bases accessibles au public ou aux systèmes non certifiés.</li>
+        </ul>
+
+        <h2>INTERDICTIONS ABSOLUES</h2>
+
+        <p>
+            Certaines lignes ne doivent jamais être franchies, même au nom du progrès ou de la curiosité scientifique. 
+            Toute transgression de ces interdictions peut entraîner des sanctions disciplinaires allant 
+            jusqu'à la neutralisation immédiate.
+        </p>
+
+        <ul>
+            <li>Il est strictement interdit d'exploiter une anomalie sans l'autorisation explicite et formelle du Conseil Supérieur d'ANUBIS.</li>
+            <li>Tout lien affectif, émotionnel ou personnel avec une anomalie est formellement proscrit. Cela inclut toute tentative d'humanisation ou d'empathie prolongée.</li>
+            <li>Les agents exposés à des anomalies dotées de capacités psychiques, mnésiques ou parasitiques doivent impérativement passer un examen neurocognitif dans les 12 heures suivant l’exposition.</li>
+        </ul>
+
+        <h2>RECHERCHE DE DOCUMENTS</h2>
+
+        <p>
+            Pour accéder aux fichiers confidentiels ou aux rapports d'observation, veuillez utiliser la barre de recherche sécurisée. 
+            Indiquez le nom de l'anomalie, le code d'identification, ou le mot-clé associé en omettant les accents. 
+        </p>
+        <p>
+            Exemple : saisissez <strong>Index</strong> pour consulter le documents du personnel.
+        </p>
+
+        </div>
+    </div>
+    <script>
+    function normalizeString(str) {
+        return str
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function searchPage() {
+        const input = normalizeString(document.getElementById('searchInput').value.trim());
+        const pages = [
+            'damocles', 'is-1895', 'hierarchie', 'titanomachie', 'ragnarok', 'osiris', 
+            'genese', 'nyerlatotep', 'shandraha', 'longinus', 'gungnir', 'balmung', 
+            'ascalone', 'durandal', 'répertoire', 'is-1989', 'is-2010', 'is-1919', 
+            'is-1306', 'is-1033', 'is-0413', 'is-0113', 'is-0039', 'is-0023', 
+            'is-0000', 'prez', 'guide', 'autentification', 'faussepiste', 'necronomicon'
+        ];
+
+        if (pages.includes(input)) {
+            window.location.href = input + '.html';
+        } else {
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    }
+    </script>
+</body>
+</html>

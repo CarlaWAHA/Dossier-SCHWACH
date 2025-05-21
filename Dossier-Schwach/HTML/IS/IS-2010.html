@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-2010</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-2010</h1> <p>Également désigné sous le nom de <strong>Fleuble</strong></p> 
+        <p><strong>Classification de l'anomalie :</strong> PL-1</p> 
+        <p>IS-2010, surnommé "Fleuble" par le personnel, a été découvert le <em>///////</em> à proximité d'un ancien complexe de recherches biologiques abandonné, situé en <em>///////</em>. L'anomalie a été interceptée et récupérée sans résistance par l'unité de terrain dirigée par ///////. Elle fut ensuite transférée au complexe de confinement secondaire de niveau bas, basé à <em>///////</em>.</p> 
+        <p>Fleuble possède une morphologie souple et gélatineuse, rappelant celle d'un slime animé. Sa consistance translucide, légèrement irisée, laisse entrevoir des formes internes fluctuantes. Bien qu'il soit considéré comme "objectivement moche" par certains membres du personnel, son attitude et son comportement lui ont rapidement valu le surnom de <em>“choupie”</em> dans les rapports non-officiels.</p> 
+        <p>Classé comme inoffensif, IS-2010 est autorisé à se déplacer librement dans l'enceinte durant la journée. Toutes les interactions recensées sont considérées comme <strong>positives</strong> ou <strong>neutres</strong>.</p> 
+        <p>Fleuble manifeste un comportement amical envers les membres du personnel, à condition qu'il détecte en eux une intention ou une émotion perçue comme "lumineuse". En cas de perception positive, il tend à offrir une fleur — le choix de l'espèce semble symbolique (rose, frangipanier, gui, lotus, etc.), bien que les significations exactes restent à interpréter.</p> 
+        <p>Ce geste se fait toujours via une extension de son bras, qui peut s'allonger de manière organique jusqu'à deux mètres pour tendre la fleur au destinataire. Refuser son offrande est vivement déconseillé : Fleuble le prend très mal… mais à sa façon. Il cesse tout mouvement, baisse légèrement sa forme comme s'il “s'affaissait”, émet quelques bulles tristes, puis tourne lentement les talons (ou l'équivalent gélatineux) pour s'éloigner en silence. Il entre alors dans une phase de "bouderie silencieuse", durant laquelle il refusera toute interaction avec la personne concernée. Cette période peut durer de quelques jours à plusieurs semaines, selon l'intensité de la vexation.</p> 
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

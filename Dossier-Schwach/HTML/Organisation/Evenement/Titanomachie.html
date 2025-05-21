@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../CSS/Evènement.css">
+    <title>RAPPORT TITANOMACHIE</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+    
+        <h1>RAPPORT D'INCIDENT - TITANOMACHIE</h1>
+
+        <br><br\>
+        <br><br\>
+
+        <p>Classification : ULTRA CONFIDENTIEL</p>
+        <p>Date : [20XX]
+            <img src="../../../Image/OsiB.png" alt="Logo OsiB" class="inline-logo">
+        </p>
+        <p>Responsable de la mission : Grand Monarque, assisté par le Conseil</p>
+        <p>Nature de l'événement : Évasion d'Anomalies / Trahison interne</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>DÉROULEMENT DE L'INCIDENT</h2>
+
+        <br><br\>
+        <br><br\>
+
+        <p>L'événement TITANOMACHIE a éclaté suite à une grave trahison au sein du complexe de recherche.</p>
+        <p>L'ancien Scientifique en Chef, S////////, a délibérément libéré une série d'anomalies hautement dangereuses, mettant en péril la sécurité du site et provoquant une série d'attaques dévastatrices.</p>
+        <p>Cette action a conduit à la mort d'une grande partie du personnel et à une perte majeure de données sensibles.</p>
+        <p>La situation a rapidement dégénéré, et une insurrection a éclaté dans plusieurs sections du complexe.</p>
+        <p>Face à l'ampleur du chaos, le Grand Monarque a pris la décision d'intervenir personnellement, guidé par le Conseil, pour neutraliser la menace et remettre le contrôle des installations.</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>RÉSULTATS DE L'INTERVENTION</h2>
+
+        <br><br\>
+        <br><br\>
+
+        <p>Anomalies : Récupérées et contenues, la plupart ont été neutralisées par l'équipe de sécurité d'urgence.</p>
+        <p>Pertes humaines : Nombreuses victimes parmi le personnel, exactitude des chiffres en cours de vérification.</p>
+        <p>Situation sous contrôle : Rétablissement de l'ordre et mise en place de protocoles de sécurité renforcés.</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>STATUT DE L'ANCIEN SCIENTIFIQUE EN CHEF</h2>
+
+        <br><br\>
+        <br><br\>
+            
+        <p>Le sort de l'ancien Scientifique en Chef S//////// reste inconnu.</p>
+        <p>Aucune trace de sa localisation n'a été retrouvée, et des recherches sont en cours pour établir les circonstances exactes de sa fuite.</p>
+        <p>Son rôle dans l'évasion des anomalies fait l'objet d'une enquête approfondie.</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>CONCLUSION & RECOMMANDATIONS</h2>
+
+        <br><br\>
+        <br><br\>
+
+        <p>La trahison de S//////// a mis en lumière des failles critiques dans les procédures de sécurité internes. Des révisions urgentes sont nécessaires pour éviter la répétition de tels incidents.</p>
+        <p>Le Conseil a recommandé un renforcement immédiat des protocoles de surveillance et une réévaluation des responsabilités des membres clés du personnel scientifique.</p>
+
+        <br><br\>
+        <br><br\>
+
+        <h2>Fin du rapport.</h2>
+
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+<!-- REVOLTE -->
+</html>

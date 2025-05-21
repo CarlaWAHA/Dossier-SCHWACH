@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-1919</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+<h1>IS-1919</h1> 
+<p>Également désigné sous le nom de <strong>Shellskull</strong></p> 
+<p><strong>Classification de l'anomalie :</strong> PX-10</p> 
+<p>IS-1919 est une entité parasite d'origine inconnue, se présentant sous une forme vaguement similaire à un <strong>bernard-l'ermite chitineux</strong>, mesurant entre 4 à 7 cm à l'état libre. Sa particularité : il ne se déplace et ne se développe qu'à l'intérieur de dispositifs audio de type <strong>écouteurs ou casques audio</strong>, qu'il utilise comme carapace et point d'entrée.</p> 
+<p>Le processus de parasitage débute dès que la victime place un casque ou des écouteurs infectés sur ses oreilles. En moins de trois secondes, l'entité <strong>perce les tympans</strong> à l'aide d'un dard rétractable, puis s'introduit dans la cavité crânienne. Une fois à l'intérieur, IS-1919 se fixe au système auditif et nerveux central, rongeant lentement les tissus tout en prenant un contrôle progressif du corps hôte.</p> 
+<p>Durant cette phase, la victime adopte un comportement erratique mais calme, se déplaçant souvent vers un endroit isolé, sombre ou acoustiquement résonnant. Ce lieu est identifié par l'entité comme un “nid” potentiel. Une fois sur place, elle entre dans une phase de <strong>ponte interne</strong>, utilisant les nutriments et tissus cérébraux pour développer plusieurs embryons.</p>
+<p>À éclosion, les jeunes IS-1919 dévorent ce qu'il reste de l'hôte de l'intérieur, avant de quitter le corps pour <strong>trouver de nouveaux casques ou écouteurs</strong> à investir et recommencer le cycle.</p> 
+<p>L'entité fut repérée pour la première fois lors d'un incident civil survenu en <em>///////</em>. Suite à plusieurs décès inexpliqués, elle fut identifiée et capturée grâce à une opération coordonnée menée par le Chef de Terrain <strong>BALMUNG</strong> et l'unité mobile spéciale /////////. Le spécimen actif a été ramené au complexe de confinement auditif de <em>///////</em>.</p> 
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

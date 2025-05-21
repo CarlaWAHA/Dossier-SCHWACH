@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import Movie from '../views/Movie.vue'
+import Home from '@/Views/Home.vue'
+import Login from '@/Views/Login.vue'
+import Register from '@/Views/Register.vue'
+import Movie from '@/Views/Movie.vue'
+import Hotel from '@/Views/Hotel.vue'
 
 const routes = [
   {
@@ -25,6 +25,11 @@ const routes = [
     path: '/movie/:id',
     name: 'Movie',
     component: Movie
+  },
+  {
+    path: '/hotel',
+    name: 'Hotel',
+    component: Hotel // ✅ route directe, pas besoin d'import dynamique ici
   }
 ]
 

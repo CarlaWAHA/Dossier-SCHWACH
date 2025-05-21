@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <title>IS-0000</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../Image/AnuB.png" alt="Logo AnuB" class="logo-img">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher une page...">
+            <button onclick="searchPage()">Rechercher</button>
+        </div>
+        <p id="errorMessage" style="color: red; display: none; text-align: center;">Page introuvable</p>
+    </header>
+
+    <div class="container">
+        <h1>IS-0000</h1> 
+        <p>Nom attribué : <strong>Celui qui précédait tout</strong></p> 
+        <p><strong>Classification de l'anomalie :</strong> <em>Inclassable</em></p> 
+        <p><strong>Informations restreintes.</strong> Ce contenu est considéré comme <strong>hautement sensible</strong>. Accès limité aux agents de niveau <em>///////</em> et plus.</p> 
+        <p>Les origines de IS-0000 demeurent <strong>inconnues</strong>. Selon le rapport fragmentaire de <em>///////</em>, plusieurs théories suggèrent que l'entité pourrait représenter une forme de <strong>proto-conscience</strong>, ou une entité primordiale ayant précédé l'apparition de toute autre anomalie connue. Certains documents classifiés le désignent comme le <strong>“père matriciel”</strong> ou <strong>“source”</strong> des IS eux-mêmes.</p> 
+        <p>Aucune tentative de confinement n'a jamais été couronnée de succès. L'entité semble capable d'exister simultanément <strong>partout et nulle part</strong>, échappant à toute forme de détection, d'observation ou de définition.</p> 
+        <p><em>Le contenu concernant IS-0000 a été bloqué.</em><br>Veuillez vous référer à votre supérieur hiérarchique pour toute requête ou tentative d'accès non autorisée.</p>
+    </div>
+
+    <script>
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function searchPage() {
+            const input = normalizeString(document.getElementById('searchInput').value.trim());
+            const pages = ['damocles', 'is-1895', 'hierarchie'];
+
+            if (pages.includes(input)) {
+                window.location.href = input + '.html';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
