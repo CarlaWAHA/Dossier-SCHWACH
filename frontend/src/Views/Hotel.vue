@@ -1,19 +1,16 @@
 <template>
-  <div class="w-screen h-screen overflow-hidden">
+  <div class="w-screen h-screen bg-black flex items-center justify-center relative overflow-hidden">
+    <!-- Bouton -->
     <button
       v-if="!started"
       @click="startScenes"
-      class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded z-10"
+      class="bg-white text-black px-6 py-3 rounded shadow-lg"
     >
       Dirigez-vous vers votre chambre
     </button>
-<div
-  class="absolute bottom-10 w-full bg-black bg-opacity-70 text-white text-center py-6 px-6 text-lg sm:text-xl font-mono leading-relaxed"
->
-  {{ currentSceneData.text }}
-</div>
 
-    <div v-if="started" class="w-full h-full">
+    <!-- Scène active -->
+    <div v-if="started" class="w-full h-full absolute top-0 left-0">
       <div
         v-if="currentSceneData"
         @click="nextScene"
@@ -43,58 +40,68 @@ export default {
       scenes: [
         {
           img: '/hotel/images/face_ascenseur1.jpg',
-          sound: '',
+          sound: '/hotel/sons/elevatordoor.wav',
           text: "C'était une longue route je vais me reposer dans ma chambre"
         },
         {
           img: '/hotel/images/face_ascenseur2.jpg',
-          sound: '/hotel/sons/elevatordoor.wav',
+          sound: '',
           text: "Cet ascenseur m'a jamais inspiré confiance..."
         },
         {
           img: '/hotel/images/face_ascenseur3.jpg',
-          sound: '/hotel/sons/entree.mp3',
+          sound: '/hotel/sons/step.wav.mp3',
           text: "Il faut que j'aille au 1er étage"
         },
         {
           img: '/hotel/images/panneau_ascenseur1.jpg',
-          sound: '',
+          sound: '/hotel/sons/elevator.wav',
           text: "Je devrai vivement"
         },
         {
           img: '/hotel/images/panneau_ascenseur2.jpg',
-          sound: '',
+          sound: '/hotel/sons/fin.mp3',
           text: "Il me semble avoir laissé des médicaments pour mes trouble"
         },
         {
-          img: '/hotel/images/ascenseur_ferme.jpg',
+          img: '/hotel/images/attente_ascenseur.jpg',
           sound: '',
           text: "Je les ai laissés dans le tiroir de la table de nuit"
         },
         {
-          img: '/hotel/images/porte.jpg',
-          sound: '',
-          text: "C'est étrange que toutes les affaires de ménage ont étés laissé"
+          img: '/hotel/images/attente_ascenseur2.jpg',
+          sound: '/hotel/sons/step.wav.mp3',
+          text: "Tiens ? La femmme de ménage habituelle n'est pas là ? Comment elle s'appellait déjà..."
         },
         {
-          img: '/hotel/images/poignee.jpg',
-          sound: '',
+          img: '/hotel/images/porte.jpg',
+          sound: '/hotel/sons/keys.wav',
+          text: "C'est étrange que toutes les affaires de ménage ont étés laissées dans le couloir..."
+        },
+        {
+          img: '/hotel/images/portevuepres.jpg',
+          sound: '/hotel/sons/dooropen.wav',
           text: "..."
         },
         {
           img: '/hotel/images/vue_meuble.jpg',
-          sound: '',
+          sound: '/hotel/sons/step.wav.mp3',
+          text: "Je prends mes cachets et au dodo"
+        },
+        {
+          img: '/hotel/images/meuble.jpg',
+          sound: '/hotel/sons/drawer.wav',
           text: ""
         },
         {
           img: '/hotel/images/meuble_ouvert.jpg',
-          sound: '',
+          sound: '/hotel/sons/lumieredisjoncte.mp3',
           text: "Mes cachets ne sont plus là"
         },
         {
-          img: '/hotel/images/vue_couloir.jpg',
+          img: '/hotel/images/chambrenuit.png',
           sound: '',
-          text: "Tiens ? La femme de ménage habituelle n'est pas là ? Comment elle s'appelait déjà..."
+          text: "Il y a quelque chose qui arrive..."
         }
       ]
     }
@@ -116,11 +123,18 @@ export default {
       }
     },
     playSound(soundPath) {
-      if (soundPath) {
-        const audio = new Audio(soundPath)
-        audio.play()
-      }
-    }
+  if (soundPath) {
+    const audio = new Audio(soundPath)
+    audio.play()
+      .then(() => {
+        console.log(" Son joué :", soundPath)
+      })
+      .catch((err) => {
+        console.warn(" Échec lecture son :", soundPath, err)
+      })
+  }
+}
+
   }
 }
 </script>

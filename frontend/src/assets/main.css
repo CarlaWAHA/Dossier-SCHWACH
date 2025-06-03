@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Corrigé : le #app doit prendre toute la largeur sans marge ni padding */
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   font-weight: normal;
+  overflow-x: hidden;
 }
 
+/* Liens */
 a,
 .green {
   text-decoration: none;
@@ -23,18 +27,15 @@ a,
   }
 }
 
-/* Plus de fond gris qui casse tout */
+/* Supprimer tout style de fond inutile en desktop */
 @media (min-width: 1024px) {
   body {
-    /* background-color: #f0f0f0; --> supprimé */
-    display: flex;
-    place-items: center;
-    background-color:rgb(247, 241, 241); /* Ajout */
+    display: block;
+    background-color: hsla(140, 2.30%, 74.70%, 0.20); /* Assorti à ton site */
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    display: block;
+    padding: 0;
   }
 }
