@@ -28,7 +28,7 @@
           </div>
         </div>
         <div v-else class="flex gap-4 text-lg">
-          <router-link to="/login" class="hover:underline text-white">Connexion</router-link>
+          <router-link to="/login" class="hover:underline text-white">Connection</router-link>
           <router-link to="/register" class="hover:underline text-white">Inscription</router-link>
         </div>
       </div>
