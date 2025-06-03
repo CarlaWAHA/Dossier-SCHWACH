@@ -1,179 +1,213 @@
 <template>
-  <div class="w-full min-h-screen px-2 pt-6 pb-44 text-gray-900 bg-gray-70 font-inter">
-    <h1 class="text-3xl font-bold mb-6 text-center">Dossier Schwach</h1>
+  <div class="w-screen h-screen bg-black flex items-center justify-center relative overflow-hidden">
+    <button
+      v-if="!started"
+      @click="startScenes"
+      class="bg-white text-black px-6 py-3 rounded shadow-lg z-10"
+    >
+      Dirigez-vous vers votre chambre
+    </button>
 
-    <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-10 w-full">
-      <div class="w-full md:w-[55vw] h-[500px]">
-        <iframe :src="movie.trailerUrl" title="Film complet" class="w-full h-full rounded shadow-xl" allowfullscreen></iframe>
-      </div>
-      <div class="w-full md:w-[30vw] h-[500px]">
-        <img :src="movie.posterUrl" :alt="movie.title" class="w-full h-full object-cover shadow-xl" />
-      </div>
-    </div>
+    <div v-if="started" class="w-full h-full absolute top-0 left-0">
+      <div class="w-full h-full relative">
+        <img
+          :src="currentSceneData.img"
+          :alt="currentSceneData.text"
+          class="w-full h-full object-cover"
+        />
 
-    <div class="flex justify-center items-center gap-10 text-lg mb-8">
-      <button @click="toggleLike" class="flex items-center gap-2 transition" :class="userLiked ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'">
-        <span class="text-2xl">👍</span> <span class="font-semibold">{{ likeCount }}</span>
-      </button>
-      <button @click="toggleDislike" class="flex items-center gap-2 transition" :class="userDisliked ? 'text-red-600' : 'text-gray-700 hover:text-red-600'">
-        <span class="text-2xl">👎</span> <span class="font-semibold">{{ dislikeCount }}</span>
-      </button>
-      <div class="flex items-center gap-2 text-gray-700">
-        <span class="text-2xl">👁️</span> <span class="font-semibold">{{ views }}</span>
-      </div>
-    </div>
+        <div
+          v-for="(zone, index) in currentSceneData.hotspots || []"
+          :key="index"
+          :style="{
+            left: zone.x + '%',
+            top: zone.y + '%',
+            width: zone.width + '%',
+            height: zone.height + '%',
+            cursor: currentSceneData.autoAdvance ? 'default' : 'pointer'
+          }"
+          @click="!currentSceneData.autoAdvance && goToScene(zone.targetScene, zone.sound)"
+        ></div>
 
-    <p class="text-lg text-center text-gray-700 mb-10">Dans un hotel, des jeunes personnes vont vivre des phénomènes étranges.</p>
-
-    <h2 class="text-2xl font-semibold mb-2">Acteurs</h2>
-    <ul class="list-disc ml-6 mb-6">
-      <li v-for="actor in movie.actors" :key="actor.id" class="text-blue-600 hover:underline cursor-pointer" @click="selectedActor = actor">{{ actor.name }}</li>
-    </ul>
-
-    <ActorDetails :actor="selectedActor" @close="selectedActor = null" class="mb-6" />
-
-    <div class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Commentaires ({{ topLevelComments.length }})</h2>
-      <div v-if="isLoggedIn" class="flex flex-col md:flex-row gap-2 mb-6">
-        <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-2 rounded w-full md:w-1/4" readonly />
-        <textarea v-model="newComment.content" placeholder="Votre commentaire" class="border border-gray-300 px-4 py-2 rounded w-full md:flex-1 resize-none" rows="3"></textarea>
-        <button @click="submitComment" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Envoyer</button>
-      </div>
-      <p v-else class="text-red-600 font-semibold mb-4">Connectez-vous pour commenter ce film.</p>
-
-      <div v-for="comment in topLevelComments" :key="comment.id" class="mb-6">
-        <div class="flex items-start">
-          <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg mr-4">
-            {{ comment.author.charAt(0).toUpperCase() }}
-          </div>
-          <div class="bg-gray-100 rounded-xl px-4 py-3 shadow-sm w-full">
-            <div class="flex justify-between items-center mb-1">
-              <span class="font-semibold text-gray-800">{{ comment.author }}</span>
-              <span class="text-sm text-gray-500">{{ new Date(comment.createdAt).toLocaleString() }}</span>
-            </div>
-            <p class="text-gray-700 leading-relaxed">{{ comment.content }}</p>
-            <button v-if="isLoggedIn" class="text-blue-600 text-sm mt-2 hover:underline" @click="replyToComment(comment.id)">
-              {{ replyingTo === comment.id ? 'Annuler' : 'Répondre' }}
-            </button>
-            <div v-if="isLoggedIn && replyingTo === comment.id" class="mt-4 space-y-2">
-              <input v-model="newComment.author" placeholder="Votre nom" class="border border-gray-300 px-4 py-1 rounded w-1/2" readonly />
-              <textarea v-model="newComment.content" placeholder="Votre réponse" class="border border-gray-300 px-4 py-2 rounded w-full resize-none" rows="2"></textarea>
-              <button @click="submitComment" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Envoyer la réponse</button>
-            </div>
-            <div v-for="reply in getReplies(comment.id)" :key="reply.id" class="ml-6 mt-4 pl-4 border-l-2 border-gray-200">
-              <strong>{{ reply.author }}</strong>
-              <p class="text-gray-700">{{ reply.content }}</p>
-            </div>
-          </div>
+        <div
+          class="absolute bottom-0 w-full bg-black bg-opacity-70 text-white text-center py-4 px-4 text-base sm:text-lg leading-relaxed font-mono z-20"
+        >
+          {{ displayedText }}
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import axios from 'axios'
-import ActorDetails from '@/components/ActorDetails.vue'
-
-const route = useRoute()
-const movie = ref({})
-const averageRating = ref(0)
-const selectedActor = ref(null)
-const likeCount = ref(0)
-const dislikeCount = ref(0)
-const views = ref(0)
-const userLiked = ref(false)
-const userDisliked = ref(false)
-const replyingTo = ref(null)
-
-const isLoggedIn = ref(!!localStorage.getItem('token'))
-const username = ref(localStorage.getItem('username') || '')
-
-const newComment = ref({ author: username.value, content: '' })
-
-const topLevelComments = computed(() => (movie.value.comments || []).filter(comment => !comment.parentId))
-const getReplies = (parentId) => (movie.value.comments || []).filter(comment => comment.parentId === parentId)
-
-onMounted(async () => {
-  await fetchMovie()
-  await incrementView()
-})
-
-const fetchMovie = async () => {
-  const res = await axios.get(`/api/movies/${route.params.id}`)
-  movie.value = res.data
-  likeCount.value = res.data.likes || 0
-  dislikeCount.value = res.data.dislikes || 0
-  views.value = res.data.views || 0
-
-  const ratings = res.data.ratings || []
-  if (ratings.length > 0) {
-    averageRating.value = (ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length).toFixed(1)
-  }
-}
-
-const toggleLike = async () => {
-  if (userLiked.value) {
-    likeCount.value--
-    userLiked.value = false
-    await axios.post(`/api/movies/${route.params.id}/unlike`)
-  } else {
-    if (userDisliked.value) {
-      dislikeCount.value--
-      userDisliked.value = false
-      await axios.post(`/api/movies/${route.params.id}/undislike`)
+<script>
+export default {
+  data() {
+    return {
+      started: false,
+      currentScene: 0,
+      displayedText: '',
+      textInterval: null,
+      autoTimer: null,
+      scenes: [
+        {
+          img: '/hotel/images/face_ascenseur1.jpg',
+          sound: '',
+          text: "C'était une longue route je vais me reposer dans ma chambre",
+          hotspots: [
+            { x: 73, y: 70, width: 2, height: 6, targetScene: 1, sound: '/hotel/sons/elevatordoor.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/face_ascenseur2.jpg',
+          sound: '',
+          text: "Cet ascenseur m'a jamais inspiré confiance...",
+          autoAdvance: 5000
+        },
+        {
+          img: '/hotel/images/face_ascenseur3.jpg',
+          sound: '/hotel/sons/step.wav.mp3',
+          text: "Il faut que j'aille au 1er étage",
+          hotspots: [
+            { x: 46, y: 30, width: 15, height: 65, targetScene: 3, sound: '/hotel/sons/step.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/panneau_ascenseur1.jpg',
+          sound: '/hotel/sons/elevator.wav',
+          text: "Je devrai vivement aller me reposer",
+          hotspots: [
+            { x: 38.5, y: 28.5, width: 4, height: 8, targetScene: 4, sound: '/hotel/sons/elevator.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/panneau_ascenseur2.jpg',
+          sound: '/hotel/sons/fin.mp3',
+          text: "Il me semble avoir laissé des médicaments pour mes troubles de sommeil",
+          autoAdvance: 5000
+        },
+        {
+          img: '/hotel/images/attente_ascenseur.jpg',
+          sound: '',
+          text: "Je les ai laissés dans le tiroir de la table de nuit",
+          autoAdvance: 5000
+        },
+        {
+          img: '/hotel/images/attente_ascenseur2.jpg',
+          sound: '/hotel/sons/step.wav.mp3',
+          text: "Tiens ? La femmme de ménage habituelle n'est pas là ? Comment elle s'appellait déjà...",
+          hotspots: [
+            { x: 55, y: 30, width: 10, height: 55, targetScene: 7, sound: '/hotel/sons/step.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/porte.jpg',
+          sound: '/hotel/sons/keys.wav',
+          text: "C'est étrange que toutes les affaires de ménage ont étés laissées dans le couloir...",
+          hotspots: [
+            { x: 28, y: 29, width: 8, height: 16, targetScene: 8, sound: '/hotel/sons/keys.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/portevuepres.jpg',
+          sound: '/hotel/sons/dooropen.wav',
+          text: "...",
+          hotspots: [
+            { x: 35, y: 80, width: 10, height: 20, targetScene: 9, sound: '/hotel/sons/dooropen.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/vue_meuble.jpg',
+          sound: '/hotel/sons/step.wav.mp3',
+          text: "Je prends mes cachets et au dodo",
+          hotspots: [
+            { x: 36, y: 40, width: 10, height: 20, targetScene: 10, sound: '/hotel/sons/step.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/meuble.jpg',
+          sound: '/hotel/sons/drawer.wav',
+          text: "",
+          hotspots: [
+            { x: 47, y: 70, width: 10, height: 20, targetScene: 11, sound: '/hotel/sons/drawer.wav' }
+          ]
+        },
+        {
+          img: '/hotel/images/meuble_ouvert.jpg',
+          sound: '/hotel/sons/lumieredisjoncte.mp3',
+          text: "Mes cachets ne sont plus là",
+          hotspots: [
+            { x: 30, y: 70, width: 40, height: 20, targetScene: 12, sound: '/hotel/sons/lumieredisjoncte.mp3' }
+          ]
+        },
+        {
+          img: '/hotel/images/chambrenuit.png',
+          sound: '',
+          text: "Il y a quelque chose qui arrive...",
+          hotspots: []
+        }
+      ]
+    };
+  },
+  computed: {
+    currentSceneData() {
+      return this.scenes[this.currentScene];
     }
-    likeCount.value++
-    userLiked.value = true
-    await axios.post(`/api/movies/${route.params.id}/like`)
-  }
-}
+  },
+  methods: {
+    startScenes() {
+      this.started = true;
+      this.showScene(this.currentScene);
+    },
+    goToScene(index, sound) {
+      this.currentScene = index;
+      this.showScene(index, sound);
+    },
+    playSound(soundPath) {
+      if (soundPath) {
+        const audio = new Audio(soundPath);
+        audio.play().catch(err => console.warn('Erreur audio :', err));
+      }
+    },
+    showScene(index, extraSound = null) {
+      const scene = this.scenes[index];
+      const soundToPlay = extraSound || scene.sound;
 
-const toggleDislike = async () => {
-  if (userDisliked.value) {
-    dislikeCount.value--
-    userDisliked.value = false
-    await axios.post(`/api/movies/${route.params.id}/undislike`)
-  } else {
-    if (userLiked.value) {
-      likeCount.value--
-      userLiked.value = false
-      await axios.post(`/api/movies/${route.params.id}/unlike`)
+      this.displayedText = '';
+      if (soundToPlay) this.playSound(soundToPlay);
+      this.typeWriter(scene.text || '');
+
+      if (this.autoTimer) clearTimeout(this.autoTimer);
+
+      if (scene.autoAdvance) {
+        this.autoTimer = setTimeout(() => {
+          if (this.currentScene === index) {
+            this.currentScene++;
+            this.showScene(this.currentScene);
+          }
+        }, scene.autoAdvance);
+      }
+    },
+    typeWriter(text) {
+      clearInterval(this.textInterval);
+      this.displayedText = '';
+      let i = 0;
+      this.textInterval = setInterval(() => {
+        if (i < text.length) {
+          this.displayedText += text[i++];
+        } else {
+          clearInterval(this.textInterval);
+        }
+      }, 40);
     }
-    dislikeCount.value++
-    userDisliked.value = true
-    await axios.post(`/api/movies/${route.params.id}/dislike`)
   }
-}
-
-const incrementView = async () => {
-  const res = await axios.post(`/api/movies/${route.params.id}/view`)
-  views.value = res.data.views
-}
-
-const replyToComment = (id) => {
-  replyingTo.value = replyingTo.value === id ? null : id
-}
-
-const submitComment = async () => {
-  if (!newComment.value.author || !newComment.value.content) {
-    alert('Veuillez remplir les deux champs.')
-    return
-  }
-
-  const payload = { ...newComment.value, parentId: replyingTo.value }
-  await axios.post(`/api/movies/${route.params.id}/comments`, payload)
-  await fetchMovie()
-  newComment.value = { author: username.value, content: '' }
-  replyingTo.value = null
-}
+};
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-.font-inter {
-  font-family: 'Inter', sans-serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Courier New', Courier, monospace;
 }
 </style>
