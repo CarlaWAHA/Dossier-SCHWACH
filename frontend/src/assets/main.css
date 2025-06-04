@@ -38,6 +38,6 @@ a,
 /* Pas d'effet desktop spécifique si inutile */
 @media (min-width: 1024px) {
   body {
-    background-color: #000; /* garde le fond noir aussi sur grand écran */
+    background-color:  hsl(150, 9.10%, 91.40%); /* garde le fond noir aussi sur grand écran */
   }
 }
